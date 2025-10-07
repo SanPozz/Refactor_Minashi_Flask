@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minashi - Inicio</title>
+</head>
+<body>
+
+    <header>
+        <img src="" alt="Logo de Minashi">
+
+        <div>
+            <nav>
+                <ul>
+                    <li><a href="{{ url_for('home') }}">Inicio</a></li>
+                    <li><a href="#">Comprar Minerales</a></li>
+                    <li><a href="#">Ver Pedidos</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div>
+            <div>
+                <img src="" alt="icono de usuario">
+                <a href="{{ url_for('login') }}">Iniciar Sesión</a>
+            </div>
+            <div>
+                <img src="" alt="icono de carrito">
+                <a href="{{ url_for('carrito.carrito') }}">Carrito</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h1>Bienvenido a Minashi {{user}}</h1>
+        <p>Nos alegra tenerte de nuevo en tu panel de cliente. Aquí podrás gestionar tus compras de minerales de manera sencilla y acceder a toda la información de tus pedidos. En este espacio encontrarás la posibilidad de explorar nuestra tienda para adquirir minerales y también revisar el estado y el historial de tus pedidos.</p>
+    </main>
+
+    <section>
+        <h2>Explora Nuestros Productos</h2>
+        <p>Descubre nuestra amplia gama de minerales disponibles para la compra. Desde gemas preciosas hasta minerales industriales, tenemos todo lo que necesitas.</p>
+        <a href="#">Comprar Minerales</a>
+    </section>
+
+    <footer>
+        <div>
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Comprar Minerales</a></li>
+                <li><a href="#">Ver Pedidos</a></li>
+            </ul>
+        </div>
+        <div>
+            <p>&copy; 2024 Minashi. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+</body>
+</html>
