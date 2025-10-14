@@ -1,29 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <title>Iniciar Sesión</title>
 </head>
-<body>
 
-    <h1>Iniciar Sesión</h1>
-    <form method="POST" action="{{ url_for('login') }}">
-        <label for="username">Usuario:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="password">Contraseña:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">Iniciar Sesión</button>
-    </form>
+<body class="relative min-h-screen overflow-hidden bg-gray-50 overflow-y-auto flex flex-col min-h-screen">
+    <header>
+        <div class="relative bg-[#DDDAD0] shadow-xl ring-1 ring-gray-900/5">
+            <nav class="px-4 py-4 sm:flex sm:items-center sm:justify-between">
+                <section class="flex justify-between">
+                    <img src="/img/logo.svg" class="h-6" alt="Mineria" />
+                    <button class="text-gray-700 sm:hidden">
+                        <svg class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100"
+                            height="100" viewBox="0 0 50 50">
+                            <path
+                                d="M 0 7.5 L 0 12.5 L 50 12.5 L 50 7.5 Z M 0 22.5 L 0 27.5 L 50 27.5 L 50 22.5 Z M 0 37.5 L 0 42.5 L 50 42.5 L 50 37.5 Z">
+                            </path>
+                        </svg>
+                    </button>
+                </section>
+                <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0">
+                    <a href="#"
+                        class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900"><button>
+                            Acerca de</button></a>
+                    <a href="#"
+                        class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900"><button>
+                            Operaciones</button></a>
 
-    {% if error %}
+
+                </div>
+                <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0">
+                    <a href="{{ url_for('login') }}" class=" text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded
+                    hover:text-gray-900 bg-[#F8F2CE] sm:mx-auto sm:w-auto sm:px-4 sm:py-2">
+                        <button>Iniciar sesion</button></a>
+
+                    <a href="{{url_for('register')}}" class=" text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded
+                    hover:text-gray-900 bg-[#F8F2CE] sm:mx-auto sm:w-auto sm:px-4 sm:py-2"><button>
+                            Registrarse</button></a>
+
+
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="flex-grow">
+        <section class="mt-10 text-center rounded-md border-1 w-full max-w-100 mx-auto p-10 bg-[#DDDAD0]">
+            <h1 class="text-3xl font-bold mt-5 ">Iniciar Sesión</h1>
+            <form method="POST" action="{{ url_for('login') }}" class=" flex flex-col gap-4 text-left">
+                <label for="username">Usuario:</label>
+                <input type="text" id="username" name="username" placeholder="Ingresar usuario" required
+                    class="border-2 bg-[#F8F2CE] rounded-md p-2">
+                <br>
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" placeholder="Ingresar contraseña" required
+                    class="border-2 bg-[#F8F2CE] rounded-md p-2">
+                <br>
+                <button class="border rounded-2xl px-4 py-2 bg-[#F8F2CE] hover:bg-[#a9a598] transition mx-auto w-auto "
+                    type="submit">Iniciar Sesión</button>
+            </form>
+            <hr class=" my-4">
+            <p>¿No tenés cuenta? <a href="{{ url_for('register') }}">Registrate</a></p>
+        </section>
+        {% if error %}
         <p style="color: red;">{{ error }}</p>
-    {% endif %}
+        {% endif %}
 
-    <a href="{{url_for('register')}}">¿Todavia no tienes una cuenta? Registrate!</a>
 
-    
+
+    </main>
+
+
+
+    <footer class="bg-[#DDDAD0]">
+        <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center text-gray-700">
+            <div class="mb-4 sm:mb-0 text-center sm:text-left">
+                <p class="font-semibold">© 2025 Minashi S.A.</p>
+                <p class="text-sm text-gray-600">Todos los derechos reservados.</p>
+            </div>
+
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-gray-900 transition-colors">Política de privacidad</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Términos de uso</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Contacto</a>
+            </div>
+        </div>
+    </footer>
 </body>
+
 </html>
