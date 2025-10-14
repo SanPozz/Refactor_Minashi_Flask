@@ -1,0 +1,11 @@
+# Entornos virtuales
+venv/
+.venv/
+env/
+ENV/
+venv.bak/
+
+# Variables de entorno
+.env
+.env.*
+!.env.example
