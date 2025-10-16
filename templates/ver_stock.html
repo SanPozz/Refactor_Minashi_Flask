@@ -5,43 +5,153 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stock de Minerales</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <h1>Stock de Minerales</h1>
 
-    {% if metals %}
-    <table border="1" cellpadding="5">
-        <thead>
-            <tr>
-                <th>Mineral</th>
-                <th>Precio ({{ currency }})</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for name, price in metals.items() %}
-            <tr>
-                <td>{{ name }}</td>
-                <td>{{ price }}</td>
-                <td>
-                    <a href="{{ url_for('registro_minerales.editar_mineral', nombre=name) }}">editar</a>
 
-                    <form method="POST" action="{{ url_for('registro_minerales.eliminar_mineral', nombre=name) }}">
-                        <button type="submit" title="Eliminar {{ name }}">
-                            Eliminar
-                        </button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>No hay minerales registrados.</p>
-    {% endif %}
+    <header class="flex justify-between items-center p-4 bg-[#212832] text-white">
+        <div class="flex">
 
-    <p><a href="{{ url_for('registro_minerales.registrar_minerales') }}">Registrar otro mineral</a></p>
+            <button id="boton_aside" class="lg:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+            <a href="#" class="ml-3">
+                <img src="" alt="LOGO"></a>
+        </div>
+
+        <div class="hover:bg-[#E6425A]/50 p-2 rounded bg-[#E6425A]">
+
+
+            <a href="#" class=""><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="size-6 inline">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                </svg>Cerrar Sesión</a>
+        </div>
+    </header>
+    <main class="flex">
+
+
+        <div class="flex flex-col p-4  lg:p-0 h-screen gap-5">
+
+
+
+            <div id="overlay"
+                class="hidden bg-gray-600/50 min-h-screen w-full fixed top-0 left-0 right-0 backdrop-blur-sm lg:hidden">
+            </div>
+
+
+            <div id="menu_aside"
+                class="bg-[#212832] min-h-screen w-80 lg:w-60 fixed top-0 left-0 transform -translate-x-full transition-transform duration-300 text-white lg:relative lg:translate-x-0  z-50">
+                <div class="py-4 px-4  flex justify-between items-center  pb-3 lg:hidden">
+
+                    <button id="cerrar_aside">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                    <div>
+                        <a href="#" class="">
+                            <img src="" alt="LOGO">
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center p-4 border-b-2 border-gray-600 text-black text-lg">
+                    <div class="bg-[#F8F2CE] w-full inline  mx-auto rounded-2xl p-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6 inline">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                        </svg>
+
+                        <p class="inline">Usuario: {{ current_user.username }}</p>
+                    </div>
+                </div>
+                <div class="flex flex-col  text-lg">
+                    <div class="text-center hover:bg-gray-200/50 border-b-2 border-gray-600 py-3">
+                        <a href="{{ url_for('registro_minerales.registrar_minerales') }}">Registrar Mineral</a>
+                    </div>
+                    <div class="text-center hover:bg-gray-200/50 py-3">
+                        <a href="{{ url_for('registro_minerales.ver_stock') }}">Ver Stock</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class=" flex flex-col content justify-center text-center border-1 mx-auto">
+
+
+            <h1>Stock de Minerales</h1>
+
+            {% if metals %}
+            <table border="1" cellpadding="5">
+                <thead>
+                    <tr>
+                        <th>Mineral</th>
+                        <th>Precio ({{ currency }})</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for name, price in metals.items() %}
+                    <tr>
+                        <td>{{ name }}</td>
+                        <td>{{ price }}</td>
+                        <td>
+                            <a href="{{ url_for('registro_minerales.editar_mineral', nombre=name) }}">editar</a>
+
+                            <form method="POST"
+                                action="{{ url_for('registro_minerales.eliminar_mineral', nombre=name) }}">
+                                <button type="submit" title="Eliminar {{ name }}">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No hay minerales registrados.</p>
+            {% endif %}
+
+            <p><a href="{{ url_for('registro_minerales.registrar_minerales') }}">Registrar otro mineral</a></p>
+        </section>
+    </main>
+
+    <script>
+        const botonAside = document.getElementById('boton_aside');
+        const cerrarAside = document.getElementById('cerrar_aside');
+        const menuAside = document.getElementById('menu_aside');
+        const overlay = document.getElementById('overlay');
+
+
+        botonAside.addEventListener('click', () => {
+            menuAside.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+        });
+
+        cerrarAside.addEventListener('click', () => {
+            menuAside.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        });
+
+
+        overlay.addEventListener('click', () => {
+            menuAside.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        });
+
+    </script>
+
 </body>
 
 </html>
