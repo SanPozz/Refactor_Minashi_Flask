@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 
-    <title>Document</title>
+    <title>Inicio - Minashi</title>
 </head>
 
 <body class="relative min-h-screen overflow-hidden bg-gray-50 overflow-y-auto flex flex-col min-h-screen">
@@ -25,12 +25,12 @@
                     </button>
                 </section>
                 <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0">
-                    <a href="#"><button
-                            class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900">
-                            Acerca de</button></a>
-                    <a href="#"><button
-                            class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900">
-                            Operaciones</button></a>
+                    <a href="{{ url_for('venta_minerales.comprar_minerales') }}" class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900">
+                            Comprar Minerales
+                    </a>
+                    <a href="#" class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900">
+                            Operaciones
+                    </a>
 
                 </div>
                 <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0">

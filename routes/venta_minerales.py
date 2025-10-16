@@ -12,7 +12,7 @@ URL_API = os.getenv('URL_API');
 
 venta_minerales_bp = Blueprint('venta_minerales', __name__)
 
-@venta_minerales_bp.route('/comprar_minerales')
+@venta_minerales_bp.route('/comprar_minerales', methods=['GET', 'POST'])
 def comprar_minerales():
 
     url = f"{URL_API}?api_key={API_KEY}&unit=kg&currency=ARS"
@@ -27,7 +27,24 @@ def comprar_minerales():
     data = load_json_from_file()
 
     currency = data['currency']
-    metals = data['metals']
+    metalsRaw = data['metals']
+    
+    if request.args.get('buscar'):
+        metals = {}
+        buscar = request.args.get('buscar').lower()
+        for metal, precio in metalsRaw.items():
+            if buscar in metal.lower():
+                metals.update({metal: precio})
+    elif request.args.get('orden'):
+        orden = request.args.get('orden')
+        if orden == 'menor':
+            metals = dict(sorted(metalsRaw.items(), key=lambda item: item[1]))
+        elif orden == 'mayor':
+            metals = dict(sorted(metalsRaw.items(), key=lambda item: item[1], reverse=True))
+        elif orden == 'alfabetico':
+            metals = dict(sorted(metalsRaw.items(), key=lambda item: item[0]))
+    else:
+        metals = metalsRaw
 
     return render_template('comprar_minerales.html', metals=metals, currency=currency)
 

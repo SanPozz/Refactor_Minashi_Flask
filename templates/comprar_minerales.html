@@ -4,20 +4,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comprar Minerales</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <h1>Comprar Minerales</h1>
-    <p>Currency:</p>
-    <select>
-        <option>{{ currency }}</option>
-        <option>USD</option>
-        <option>EUR</option>
-    </select>
-    <ul>
-        {% for metal, pricePerKG in metals.items() %}
-            <li>{{ metal }}: ${{ pricePerKG }} {{ currency }}</li>
-            <button>Comprar</button>
-        {% endfor %}
-    </ul>
+
+    <header class="bg-[#DDDAD0] px-2 h-[15vh]">
+        <nav class="h-full flex justify-between items-center">
+            <div>
+                <a href="{{ url_for('home') }}" class="">
+                    <img src="" alt="LOGO">
+                </a>
+            </div>
+            <div class="h-full flex items-end gap-6">
+                <a href="{{ url_for('venta_minerales.comprar_minerales') }}" class="bg-[#7A7A72] text-[#F8F2CE] p-2">Comprar Minerales</a>
+                <a href="{{ url_for('pedidos.mis_pedidos') }}" class=" p-2">Mis Pedidos</a>
+            </div>
+            <div>
+                <div>
+                    <span>Usuario: {{ current_user.username }}</span>
+                </div>
+                <div>
+                    <a href="">
+                        <img src="" alt="Carrito">
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="h-[15vh] w-full flex items-center, justify-between p-6">
+        <h1 class="text-4xl">Minerales</h1>
+        <div class="flex flex-col gap-4">
+            <form action="">
+                <span>Ordenar por:</span>
+                <select name="orden" id="orden">
+                    <option value="menor">Menor Precio</option>
+                    <option value="mayor">Mayor Precio</option>
+                    <option value="alfabetico">Alfabético</option>
+                </select>
+                <button type="submit" class="p-2 bg-black text-white rounded-lg text-center">Ordenar</button>
+            </form>
+            <div >
+                <!-- El <form> ahora es el contenedor principal con posicionamiento relativo -->
+                <form action="" class="relative flex items-center w-64">
+                    <!-- Contenedor para el ícono, posicionado de forma absoluta -->
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <i class="fa fa-search text-gray-400" aria-hidden="true"></i>
+                    </div>
+                    
+                    <!-- Input con padding a la izquierda para no superponerse con el ícono -->
+                    <input 
+                        type="text" 
+                        name="buscar" 
+                        id="buscar" 
+                        placeholder="Buscar oro, cobre..." 
+                        class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    >
+                    
+                    <!-- El botón de submit se oculta. El formulario se envía con la tecla "Enter" -->
+                    <button type="submit" class="hidden"></button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <main class=" w-full flex justify-center p-6">
+        <table class="h-[30%] w-[70%] text-center">
+            <thead class="h-[20%]">
+                <tr>
+                    <th>Mineral</th>
+                    <th>Precio por KG</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="h-[80%]">
+                {% for metal, precio in metals.items() %}
+                <tr class="h-10 border-b border-gray-200 hover:bg-gray-50">
+                    <td class="px-5 py4 text-sm">{{ metal | capitalize }}</td>
+                    <td class="px-5 py4 text-sm">{{ precio }}$ {{ currency }}</td>
+                    <td class="text-sm p-0 group hover:bg-gray-100 cursor-pointer transition-colors duration-150">
+                        <form method="POST" action="" class="h-full w-full">
+                            <button type="submit" class="h-full w-full cursor-pointer">
+                                Agregar al Carrito
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+    <footer class="bg-[#DDDAD0] mt-10">
+        <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center text-gray-700">
+            <div class="mb-4 sm:mb-0 text-center sm:text-left">
+                <p class="font-semibold">© 2025 Minashi S.A.</p>
+                <p class="text-sm text-gray-600">Todos los derechos reservados.</p>
+            </div>
+
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-gray-900 transition-colors">Política de privacidad</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Términos de uso</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Contacto</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </body>
 </html>
