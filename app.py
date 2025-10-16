@@ -8,8 +8,10 @@ from database import db, init_db
 from routes.venta_minerales import venta_minerales_bp
 from routes.pedidos import pedidos_bp
 from routes.carrito import carrito_bp
+from routes.registro_minerales import registro_minerales_bp
 
 app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///minashi.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'Minashi-flask'
@@ -27,6 +29,8 @@ def load_user(user_id):
 app.register_blueprint(venta_minerales_bp)
 app.register_blueprint(pedidos_bp)
 app.register_blueprint(carrito_bp)
+app.register_blueprint(registro_minerales_bp)
+
 
 @app.route('/')
 def home():
@@ -69,6 +73,7 @@ def login():
         password = request.form['password']
 
         userDB = User.query.filter_by(username=username).first()
+
         if userDB and Bcrypt().check_password_hash(userDB.password, password):
             login_user(userDB)
             return redirect(url_for('home'))
