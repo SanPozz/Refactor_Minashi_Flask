@@ -34,7 +34,11 @@ app.register_blueprint(registro_minerales_bp)
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    if current_user.is_authenticated:
+        user = True;
+    else:
+        user = False;
+    return render_template('home.html', user=user)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
