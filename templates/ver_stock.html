@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock de Minerales</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <h1>Stock de Minerales</h1>
+
+    {% if metals %}
+    <table border="1" cellpadding="5">
+        <thead>
+            <tr>
+                <th>Mineral</th>
+                <th>Precio ({{ currency }})</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for name, price in metals.items() %}
+            <tr>
+                <td>{{ name }}</td>
+                <td>{{ price }}</td>
+                <td>
+                    <a href="{{ url_for('registro_minerales.editar_mineral', nombre=name) }}">editar</a>
+
+                    <form method="POST" action="{{ url_for('registro_minerales.eliminar_mineral', nombre=name) }}">
+                        <button type="submit" title="Eliminar {{ name }}">
+                            Eliminar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay minerales registrados.</p>
+    {% endif %}
+
+    <p><a href="{{ url_for('registro_minerales.registrar_minerales') }}">Registrar otro mineral</a></p>
+</body>
+
+</html>
