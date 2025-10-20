@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Ver pedidos</title>
+</head>
+<body class="relative min-h-screen overflow-hidden bg-gray-50 overflow-y-auto flex flex-col min-h-screen">
+    <header>
+        <div class="relative bg-[#DDDAD0] shadow-xl ring-1 ring-gray-900/5">
+            <nav class="px-4 py-4 sm:flex sm:items-center sm:justify-between">
+                <section class="flex justify-between">
+                    <img src="/img/logo.svg" class="h-6" alt="Mineria" />
+                    <button class="text-gray-700 sm:hidden">
+                        <svg class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100"
+                            height="100" viewBox="0 0 50 50">
+                            <path
+                                d="M 0 7.5 L 0 12.5 L 50 12.5 L 50 7.5 Z M 0 22.5 L 0 27.5 L 50 27.5 L 50 22.5 Z M 0 37.5 L 0 42.5 L 50 42.5 L 50 37.5 Z">
+                            </path>
+                        </svg>
+                    </button>
+                </section>
+                <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0">
+                    <a href="#"><button
+                            class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900">
+                            Comprar Minerales</button></a>
+                    <a href="#"><button
+                            class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900">
+                            Ver Pedidos</button></a>
+
+                </div>
+                <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0">
+                    <a href="{{ url_for('login') }}" class=" text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded
+                    hover:text-gray-900 bg-[#F8F2CE] sm:mx-auto sm:w-auto sm:px-4 sm:py-2">Usuario</a>
+
+                    <a href="{{url_for('register')}}" class=" text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded
+                    hover:text-gray-900 bg-[#F8F2CE] sm:mx-auto sm:w-auto sm:px-4 sm:py-2"><button>Cerrar Sesión</button></a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="flex-grow">
+        <div class="p-8 bg-white flex flex-col lg:flex-row gap-6 items-start">
+  <div class="flex-1">
+    <h1 class="text-3xl font-semibold mb-6">Pedidos</h1>
+
+    <table class="w-full border-collapse">
+      <thead>
+        <tr class="border-b text-left">
+          <th class="py-2 px-4 font-medium">ID</th>
+          <th class="py-2 px-4 font-medium">Total</th>
+          <th class="py-2 px-4 font-medium">Fecha</th>
+          <th class="py-2 px-4 font-medium">Estado</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr class="border-b bg-gray-200">
+          <td class="py-2 px-4">1</td>
+          <td class="py-2 px-4">$2500,00</td>
+          <td class="py-2 px-4">15/06/25</td>
+          <td class="py-2 px-4 text-gray-700">Pendiente</td>
+        </tr>
+
+        <tr class="border-b hover:bg-gray-100">
+          <td class="py-2 px-4">2</td>
+          <td class="py-2 px-4">$3500,00</td>
+          <td class="py-2 px-4">25/03/25</td>
+          <td class="py-2 px-4 text-gray-700">Pendiente</td>
+        </tr>
+
+        <tr class="border-b hover:bg-gray-100">
+          <td class="py-2 px-4">3</td>
+          <td class="py-2 px-4">$2000,00</td>
+          <td class="py-2 px-4">20/03/25</td>
+          <td class="py-2 px-4 text-gray-700">Pendiente</td>
+        </tr>
+
+        <tr class="border-b hover:bg-gray-100">
+          <td class="py-2 px-4">4</td>
+          <td class="py-2 px-4">$5000,00</td>
+          <td class="py-2 px-4">20/02/25</td>
+          <td class="py-2 px-4 text-gray-700">Pendiente</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="flex items-center justify-between mt-6">
+      <span class="text-sm text-gray-600">Página 1</span>
+      <div class="flex items-center gap-2">
+        <button class="border rounded-full px-2 py-1 text-gray-600 hover:bg-gray-200">&lt;</button>
+        <button class="px-3 py-1 bg-gray-300 rounded">1</button>
+        <button class="px-3 py-1 hover:bg-gray-200 rounded">2</button>
+        <button class="px-3 py-1 hover:bg-gray-200 rounded">3</button>
+        <span class="text-gray-500">…</span>
+        <button class="border rounded-full px-2 py-1 text-gray-600 hover:bg-gray-200">&gt;</button>
+      </div>
+    </div>
+
+    <div class="mt-6 flex justify-center">
+      <button class="bg-gray-800 text-white px-6 py-3 rounded-full hover:bg-gray-700">
+        Ver detalles
+      </button>
+    </div>
+  </div>
+
+  <div class="w-full lg:w-1/3 border rounded-lg p-6 self-start">
+    <h2 class="text-lg font-medium mb-4">Detalles del pedido</h2>
+
+    <div class="space-y-3 text-gray-700">
+      <p><span class="font-semibold">Mina:</span> Veladero</p>
+      <p><span class="font-semibold">Mineral:</span> Oro</p>
+      <p><span class="font-semibold">Pureza:</span> 78.5%</p>
+      <p><span class="font-semibold">Cantidad:</span> 20 Toneladas</p>
+    </div>
+  </div>
+</div>
+
+    </main>
+    <footer class="bg-[#DDDAD0] mt-10">
+        <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center text-gray-700">
+            <div class="mb-4 sm:mb-0 text-center sm:text-left">
+                <p class="font-semibold">© 2025 Minashi S.A.</p>
+                <p class="text-sm text-gray-600">Todos los derechos reservados.</p>
+            </div>
+
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-gray-900 transition-colors">Política de privacidad</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Términos de uso</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Contacto</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
