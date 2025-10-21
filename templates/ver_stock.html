@@ -13,7 +13,7 @@
 <body>
 
 
-    <header class="flex justify-between items-center p-4 bg-[#212832] text-white">
+    <header class="flex justify-between items-center p-4 bg-[#212832] text-white fixed w-full top-0 z-40">
         <div class="flex">
 
             <button id="boton_aside" class="lg:hidden">
@@ -37,80 +37,74 @@
                 </svg>Cerrar Sesión</a>
         </div>
     </header>
-    <main class="flex">
+    <main class="flex relative top-16 left-0 right-0 bottom-0 bg-gray-100 pt-8 lg:pt-10 overflow-y-auto min-h-screen">
 
 
-        <div class="flex flex-col p-4  lg:p-0 h-screen gap-5">
+        <div id="overlay"
+            class="hidden bg-gray-600/50 min-h-screen w-full fixed top-0 left-0 right-0 backdrop-blur-sm lg:hidden">
+        </div>
 
-
-
-            <div id="overlay"
-                class="hidden bg-gray-600/50 min-h-screen w-full fixed top-0 left-0 right-0 backdrop-blur-sm lg:hidden">
+        <div id="menu_aside"
+            class="bg-[#212832] min-h-screen w-80 lg:w-60 fixed top-0 lg:top-19 left-0 transform -translate-x-full transition-transform duration-300 text-white lg:translate-x-0 z-50">
+            <div class="py-4 px-4 flex justify-between items-center pb-3 lg:hidden">
+                <button id="cerrar_aside">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <div>
+                    <a href="#"><img src="" alt="LOGO"></a>
+                </div>
             </div>
 
-
-            <div id="menu_aside"
-                class="bg-[#212832] min-h-screen w-80 lg:w-60 fixed top-0 left-0 transform -translate-x-full transition-transform duration-300 text-white lg:relative lg:translate-x-0  z-50">
-                <div class="py-4 px-4  flex justify-between items-center  pb-3 lg:hidden">
-
-                    <button id="cerrar_aside">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="size-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                    <div>
-                        <a href="#" class="">
-                            <img src="" alt="LOGO">
-                        </a>
-                    </div>
+            <div class="text-center p-4 border-b-2 border-gray-600 text-black text-lg">
+                <div class="bg-[#F8F2CE] w-full inline mx-auto rounded-2xl p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6 inline">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg>
+                    <p class="inline">Usuario: {{ current_user.username }}</p>
                 </div>
-                <div class="text-center p-4 border-b-2 border-gray-600 text-black text-lg">
-                    <div class="bg-[#F8F2CE] w-full inline  mx-auto rounded-2xl p-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="size-6 inline">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                        </svg>
+            </div>
 
-                        <p class="inline">Usuario: {{ current_user.username }}</p>
-                    </div>
+            <div class="flex flex-col text-lg">
+                <div class="text-center hover:bg-gray-200/50 border-b-2 border-gray-600 py-3">
+                    <a href="{{ url_for('registro_minerales.registrar_minerales') }}">Registrar Mineral</a>
                 </div>
-                <div class="flex flex-col  text-lg">
-                    <div class="text-center hover:bg-gray-200/50 border-b-2 border-gray-600 py-3">
-                        <a href="{{ url_for('registro_minerales.registrar_minerales') }}">Registrar Mineral</a>
-                    </div>
-                    <div class="text-center hover:bg-gray-200/50 py-3">
-                        <a href="{{ url_for('registro_minerales.ver_stock') }}">Ver Stock</a>
-                    </div>
+                <div class="text-center hover:bg-gray-200/50 py-3">
+                    <a href="{{ url_for('registro_minerales.ver_stock') }}">Ver Stock</a>
                 </div>
             </div>
         </div>
 
-        <section class=" flex flex-col content justify-center text-center border-1 mx-auto">
 
-
-            <h1>Stock de Minerales</h1>
+        <section class="mx-auto overflow-x-auto p-4 w-full max-w-5xl mt-24 lg:ml-70 transition-all duration-300">
+            <h1 class="text-2xl font-bold mb-6 text-center">Stock de Minerales</h1>
 
             {% if metals %}
-            <table border="1" cellpadding="5">
-                <thead>
+            <table class="w-full text-left rtl:text-right border border-gray-300 rounded-lg overflow-hidden shadow-md">
+                <thead class="uppercase bg-gray-700 text-white">
                     <tr>
-                        <th>Mineral</th>
-                        <th>Precio ({{ currency }})</th>
+                        <th scope="col" class="px-6 py-3">Mineral</th>
+                        <th scope="col" class="px-6 py-3">Precio ({{ currency }})</th>
+                        <th scope="col" class="px-6 py-3">Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for name, price in metals.items() %}
-                    <tr>
-                        <td>{{ name }}</td>
-                        <td>{{ price }}</td>
-                        <td>
-                            <a href="{{ url_for('registro_minerales.editar_mineral', nombre=name) }}">editar</a>
+                    <tr class="border-b whitespace-nowrap odd:bg-white even:bg-gray-200">
+                        <td class="px-6 py-4">{{ name }}</td>
+                        <td class="px-6 py-4">{{ price }}</td>
+                        <td class="px-6 py-4 space-x-2">
+                            <a href="{{ url_for('registro_minerales.editar_mineral', nombre=name) }}"
+                                class="text-blue-600 hover:underline">Editar</a>
 
                             <form method="POST"
-                                action="{{ url_for('registro_minerales.eliminar_mineral', nombre=name) }}">
-                                <button type="submit" title="Eliminar {{ name }}">
+                                action="{{ url_for('registro_minerales.eliminar_mineral', nombre=name) }}"
+                                class="inline">
+                                <button type="submit" title="Eliminar {{ name }}" class="text-red-600 hover:underline">
                                     Eliminar
                                 </button>
                             </form>
@@ -120,10 +114,8 @@
                 </tbody>
             </table>
             {% else %}
-            <p>No hay minerales registrados.</p>
+            <p class="text-center mt-10 text-gray-600">No hay minerales registrados.</p>
             {% endif %}
-
-            <p><a href="{{ url_for('registro_minerales.registrar_minerales') }}">Registrar otro mineral</a></p>
         </section>
     </main>
 
