@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for
 from dotenv import load_dotenv;
 import os,json;
 from flask import current_app
-from flask_login import login_required
+from flask_login import login_required, current_user
 import requests;
 
 load_dotenv();
@@ -18,16 +18,19 @@ venta_minerales_bp = Blueprint('venta_minerales', __name__)
 @login_required
 def comprar_minerales():
 
+    if current_user.role != 'user':
+        return redirect(url_for('home'))
+
     url = f"{URL_API}?api_key={API_KEY}&unit=kg&currency=ARS"
 
     headers = {}
 
     headers["Accept"] = "application/json"
 
-    # resp = requests.get(url, headers=headers)
-    # data = resp.json()
+    resp = requests.get(url, headers=headers)
+    data = resp.json()
 
-    data = load_json_from_file()
+    # data = load_json_from_file()
 
     currency = data['currency']
     metalsRaw = data['metals']
