@@ -44,11 +44,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in carrito %}
+                    {% for item in cart %}
                         <tr>
-                            <td>{{ item.mineral }}</td>
-                            <td>{{ item.kg }}</td>
-                            <td>{{ item.precio_unitario }}</td>
+                            {% for values in item.values() %}
+                                <td>{{ values }}</td>
+                            {% endfor %}
                         </tr>
                     {% endfor %}
                 </tbody>

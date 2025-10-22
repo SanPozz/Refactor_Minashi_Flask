@@ -27,7 +27,7 @@
                     <span>Usuario: {{ current_user.username }}</span>
                 </div>
                 <div>
-                    <a href="">
+                    <a href="{{ url_for('carrito.ver_carrito') }}">
                         <img src="" alt="Carrito">
                     </a>
                 </div>
@@ -80,11 +80,22 @@
                 <tr class="h-10 border-b border-gray-200 hover:bg-gray-50">
                     <td class="px-5 py4 text-sm">{{ metal | capitalize }}</td>
                     <td class="px-5 py4 text-sm">{{ precio }}$ {{ currency }}</td>
-                    <td class="text-sm p-0 group hover:bg-gray-100 cursor-pointer transition-colors duration-150">
-                        <form method="POST" action="" class="h-full w-full">
-                            <button type="submit" class="h-full w-full cursor-pointer">
+                    <td class="text-sm p-0 cursor-pointer transition-colors duration-150">
+                        <form method="POST" action="" class="h-full w-full flex items-center justify-center gap-2 p-2">
+                            <div class="flex flex-col items-center">
+                                <label class="text-start">Cantidad:</label>
+                                <input type="number" name="cantidad" id="cantidad" min="1"
+                                class="w-16 p-1 border border-gray-300 rounded-md mr-2"
+                                placeholder="KG">
+                            </div>
+
+                            <button type="submit" class="p-2 bg-gray-300 hover:bg-gray-400 rounded-md cursor-pointer">
                                 Agregar al Carrito
                             </button>
+
+                            <input type="hidden" name="metal" value="{{ metal }}">
+                            <input type="hidden" name="precio" value="{{ precio }}">
+                            
                         </form>
                     </td>
                 </tr>
