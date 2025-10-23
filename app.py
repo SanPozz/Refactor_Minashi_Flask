@@ -1,24 +1,53 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_bcrypt import Bcrypt
 from flask_login import (
     LoginManager, login_user,
     logout_user, login_required, current_user
 )
+from authlib.integrations.flask_client import OAuth
+
+from dotenv import load_dotenv;
+
+load_dotenv()
+
 from database import db, init_db
+
 from routes.venta_minerales import venta_minerales_bp
 from routes.pedidos import pedidos_bp
 from routes.carrito import carrito_bp
 from routes.registro_minerales import registro_minerales_bp
+from routes.google_auth import auth_bp
+
+from models.User import User
+
 
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///minashi.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'Minashi-flask'
+app.secret_key = os.getenv('SECRET_KEY')
+app.config['GOOGLE_CLIENT_ID'] = os.getenv('GOOGLE_ID_CLIENT')
 
-from models.User import User
+app.config['GOOGLE_CLIENT_SECRET'] = os.getenv('GOOGLE_SECRET_CLIENT')
+
+oauth = OAuth(app)
+google = oauth.register(
+    name='google',
+    client_id=app.config['GOOGLE_CLIENT_ID'],
+    client_secret=app.config['GOOGLE_CLIENT_SECRET'],
+    access_token_url='https://oauth2.googleapis.com/token',
+    authorize_url='https://accounts.google.com/o/oauth2/auth',
+    api_base_url='https://www.googleapis.com/oauth2/v1/',
+    userinfo_endpoint='https://openidconnect.googleapis.com/v1/userinfo',
+    client_kwargs={'scope': 'openid email profile'},
+    jwks_uri='https://www.googleapis.com/oauth2/v3/certs'
+)
+
+app.google = google
 
 init_db(app)
+
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
@@ -30,11 +59,16 @@ app.register_blueprint(venta_minerales_bp)
 app.register_blueprint(pedidos_bp)
 app.register_blueprint(carrito_bp)
 app.register_blueprint(registro_minerales_bp)
+app.register_blueprint(auth_bp)
 
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    if current_user.is_authenticated:
+        user = True;
+    else:
+        user = False;
+    return render_template('home.html', user=user)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -75,8 +109,10 @@ def login():
         userDB = User.query.filter_by(username=username).first()
 
         if userDB and Bcrypt().check_password_hash(userDB.password, password):
+            userDB.cart = session.get('cart', [])
             login_user(userDB)
             return redirect(url_for('home'))
+        
         else:
             return render_template('login.html', error='Credenciales invalidas')
     return render_template('login.html')
@@ -86,6 +122,11 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+@app.route('/profile')
+@login_required
+def profile():
+    return render_template('perfil.html', current_user=current_user)
 
 if __name__ == '__main__':
     app.run(debug=True)

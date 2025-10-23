@@ -65,6 +65,7 @@
             </form>
             <hr class=" my-4">
             <p>¿No tenés cuenta? <a href="{{ url_for('register') }}">Registrate</a></p>
+            <a href="{{ url_for('auth.login') }}">Login con Google</a>
         </section>
         {% if error %}
         <p style="color: red;">{{ error }}</p>
