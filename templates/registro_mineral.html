@@ -67,14 +67,14 @@
                 </div>
             </div>
 
-            <div class="flex flex-col text-lg">
-                <div class="text-center hover:bg-gray-200/50 border-b-2 border-gray-600 py-3">
-                    <a href="{{ url_for('registro_minerales.registrar_minerales') }}">Registrar Mineral</a>
-                </div>
-                <div class="text-center hover:bg-gray-200/50 py-3">
-                    <a href="{{ url_for('registro_minerales.ver_stock') }}">Ver Stock</a>
-                </div>
-            </div>
+
+            <a href="{{ url_for('registro_minerales.registrar_minerales') }}"
+                class="text-center hover:bg-gray-200/50 border-b-2 border-gray-600 py-3">Registrar Mineral</a>
+
+
+            <a href="{{ url_for('registro_minerales.ver_stock') }}" class=" text-center hover:bg-gray-200/50 py-3">Ver
+                Stock</a>
+        </div>
         </div>
 
 

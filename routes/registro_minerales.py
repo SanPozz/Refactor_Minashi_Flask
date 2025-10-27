@@ -19,7 +19,7 @@ registro_minerales_bp = Blueprint('registro_minerales', __name__)
 @registro_minerales_bp.route('/registro_mineral', methods=['GET', 'POST'])
 def registrar_minerales():
 
-    url = f"{URL_API}?api_key={API_KEY}&unit=kg&currency=ARS"
+    # url = f"{URL_API}?api_key={API_KEY}&unit=kg&currency=ARS"
 
     headers = {}
 
@@ -104,3 +104,4 @@ def save_json_to_file(data):
     path = os.path.normpath(path)
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
+        
