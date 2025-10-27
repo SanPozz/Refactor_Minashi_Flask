@@ -1,3 +1,5 @@
+from Classes.Usuario import Usuario
+
 class Empleado(Usuario):
     def __init__(self, username, mail, password, rol, id_empleado, cargo):
         super().__init__(username, mail, password, rol)

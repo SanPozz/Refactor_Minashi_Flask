@@ -1,3 +1,5 @@
+from Classes.Usuario import Usuario
+
 class Cliente(Usuario):
     def __init__(self, username, mail, password, rol, id_cliente, direccion):
         super().__init__(username, mail, password, rol)
