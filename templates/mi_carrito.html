@@ -32,29 +32,37 @@
         </nav>
     </header>
 
-    <main class=" w-full flex justify-center p-6">
-        <section>
-            <h1>Mi Carrito</h1>
-            <div>
-                <thead>
-                    <tr>
-                        <th>Mineral</th>
-                        <th>KG</th>
-                        <th>Precio Unitario</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in cart %}
-                        <tr>
-                            {% for values in item.values() %}
-                                <td>{{ values }}</td>
-                            {% endfor %}
+    <main class="w-full flex flex-col align-center p-10 min-h-[70vh]">
+        <div class="text-wrap mb-10">
+            <h1 class="text-4xl"><span class="border-b-3">Mi Carrito</span></h1>
+        </div>
+        <section class="flex justify-center">
+            <div class="w-[70%] flex justify-center mb-10">
+                <table class="w-[70%] text-center">
+                    <thead class="border-b-2">
+                        <tr class="h-12">
+                            <th class="pb-2">Cantidad (KG)</th>
+                            <th class="pb-2">Mineral</th>
+                            <th class="pb-2">Precio Unitario</th>
+                            <th class="pb-2">Precio Total</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
+                    </thead>
+                    <tbody>
+                        {% for item in cart %}
+                            <tr class="h-4">
+                                {% for values in item.values() %}
+                                    <td class="py-2">{{ values }}</td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
-            <div>
-
+            <div class=" w-[40%] flex flex-col">
+                <span>Resumen del Pedido:</span>
+                <span>Total: {{ total }}</span>
+                <a href="" class="bg-[#7A7A72] text-[#F8F2CE] p-2">Finalizar Compra</a>
+                <a href="{{ url_for('carrito.vaciar_carrito') }}" class="">Vaciar Carrito</a>
             </div>
         </section>
     </main>

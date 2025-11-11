@@ -81,7 +81,7 @@
                     <td class="px-5 py4 text-sm">{{ metal | capitalize }}</td>
                     <td class="px-5 py4 text-sm">{{ precio }}$ {{ currency }}</td>
                     <td class="text-sm p-0 cursor-pointer transition-colors duration-150">
-                        <form method="POST" action="" class="h-full w-full flex items-center justify-center gap-2 p-2">
+                        <form method="POST" action="{{url_for('carrito.agregar_al_carrito')}}" class="h-full w-full flex items-center justify-center gap-2 p-2">
                             <div class="flex flex-col items-center">
                                 <label class="text-start">Cantidad:</label>
                                 <input type="number" name="cantidad" id="cantidad" min="1"

@@ -14,8 +14,8 @@ def ver_carrito():
 
     return render_template('mi_carrito.html', cart=cart)
 
-@carrito_bp.route('/agregar_al_carrito/<metal>', methods=['POST'])
-def agregar_al_carrito(metal):
+@carrito_bp.route('/agregar_al_carrito', methods=['POST'])
+def agregar_al_carrito():
 
     if request.method == 'POST':
         metal = request.form['metal']
@@ -26,11 +26,27 @@ def agregar_al_carrito(metal):
 
         prod = MineralCarrito(metal, precio, cantidad)
 
-        cart.append(prod.to_dict())
+        existe = False;
+
+        for item in cart:
+            for key, value in item.items():
+                if key == 'nombre':
+                    if value == metal:
+                        existe = True
+                        item['cantidad'] += cantidad
+                        item['total'] = item['cantidad'] * item['precio']
+                        break
+
+        if existe == False:
+            cart.append(prod.to_dict())
 
         session['cart'] = cart
         session.modified = True
 
-        print(session['cart'])
-
         return redirect(url_for('venta_minerales.comprar_minerales', resultado='agregado'))
+    
+@carrito_bp.route('/vaciar_carrito')
+def vaciar_carrito():
+        session['cart'] = []
+        session.modified = True
+        return redirect(url_for('carrito.ver_carrito'))

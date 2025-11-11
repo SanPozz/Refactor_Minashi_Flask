@@ -9,7 +9,8 @@ class MineralCarrito:
         return {
             'nombre': self.nombre,
             'precio': self.precio,
-            'cantidad': self.cantidad
+            'cantidad': self.cantidad,
+            'total': self.calcular_total()
         }
     
     def __repr__(self):
@@ -27,3 +28,6 @@ class MineralCarrito:
     def decrementar_cantidad(self, decremento=1):
         if self.cantidad - decremento >= 0:
             self.cantidad -= decremento
+
+    def calcular_total(self):
+        return self.precio * self.cantidad
