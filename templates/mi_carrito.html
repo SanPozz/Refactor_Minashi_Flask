@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprar Minerales</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+    <header class="bg-[#DDDAD0] px-2 h-[15vh]">
+        <nav class="h-full flex justify-between items-center">
+            <div>
+                <a href="{{ url_for('home') }}" class="">
+                    <img src="" alt="LOGO">
+                </a>
+            </div>
+            <div class="h-full flex items-end gap-6">
+                <a href="{{ url_for('venta_minerales.comprar_minerales') }}" class="bg-[#7A7A72] text-[#F8F2CE] p-2">Comprar Minerales</a>
+                <a href="{{ url_for('pedidos.mis_pedidos') }}" class=" p-2">Mis Pedidos</a>
+            </div>
+            <div>
+                <div>
+                    <span>Usuario: {{ current_user.username }}</span>
+                </div>
+                <div>
+                    <a href="">
+                        <img src="" alt="Carrito">
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class=" w-full flex justify-center p-6">
+        <section>
+            <h1>Mi Carrito</h1>
+            <div>
+                <thead>
+                    <tr>
+                        <th>Mineral</th>
+                        <th>KG</th>
+                        <th>Precio Unitario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart %}
+                        <tr>
+                            {% for values in item.values() %}
+                                <td>{{ values }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </div>
+            <div>
+
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-[#DDDAD0] mt-10">
+        <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col sm:flex-row justify-between items-center text-gray-700">
+            <div class="mb-4 sm:mb-0 text-center sm:text-left">
+                <p class="font-semibold">© 2025 Minashi S.A.</p>
+                <p class="text-sm text-gray-600">Todos los derechos reservados.</p>
+            </div>
+
+            <div class="flex space-x-4">
+                <a href="#" class="hover:text-gray-900 transition-colors">Política de privacidad</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Términos de uso</a>
+                <a href="#" class="hover:text-gray-900 transition-colors">Contacto</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</body>
+</html>
