@@ -11,11 +11,14 @@
 
 <body class="relative min-h-screen overflow-hidden bg-gray-50 overflow-y-auto flex flex-col min-h-screen">
     <header>
+
         <div class="relative bg-[#DDDAD0] shadow-xl ring-1 ring-gray-900/5">
+
             <nav class="px-4 py-4 sm:flex sm:items-center sm:justify-between">
+
                 <section class="flex justify-between">
                     <img src="/img/logo.svg" class="h-6" alt="Mineria" />
-                    <button class="text-gray-700 sm:hidden">
+                    <button class="text-gray-700 sm:hidden" id="boton_nav">
                         <svg class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100"
                             height="100" viewBox="0 0 50 50">
                             <path
@@ -23,17 +26,21 @@
                             </path>
                         </svg>
                     </button>
+
                 </section>
-                <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0">
-                    <a href="#"><button
-                            class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900">
+
+                <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0 " id="nav_links">
+
+                    <a href="#"
+                        class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900"><button>
                             Acerca de</button></a>
-                    <a href="#"><button
-                            class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900">
+                    <a href="#"
+                        class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900"><button>
                             Operaciones</button></a>
 
                 </div>
-                <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0">
+                <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0 " id="nav_links">
+
                     <a href="{{ url_for('login') }}" class=" text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded
                     hover:text-gray-900 bg-[#F8F2CE] sm:mx-auto sm:w-auto sm:px-4 sm:py-2">
                         <button>Iniciar sesion</button></a>
@@ -44,29 +51,32 @@
 
 
                 </div>
+                </section>
             </nav>
         </div>
     </header>
 
     <main class="flex-grow">
-        <section class="mt-10 text-center rounded-md border-1 w-full max-w-100 mx-auto p-10 bg-[#DDDAD0]">
+        <section
+            class="mt-10 text-center rounded-md shadow-md rounded-lg w-full max-w-100 mx-auto p-10 bg-[#DDDAD0] border border-gray-300">
             <h1 class="text-3xl font-bold mt-5 ">Registro</h1>
             <form method="POST" action="{{ url_for('register') }}" class=" flex flex-col gap-4 text-left">
                 <label for="username">Username:</label>
                 <input type="text" name="username" id="username" placeholder="Ingresar username" required
-                    class="border-2 bg-[#F8F2CE] rounded-md p-2">
+                    class="border-gray-600 bg-white rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black placeholder-gray-400">
 
                 <label for="mail">Email:</label>
                 <input type="email" name="mail" id="mail" placeholder="ingresar email" required
-                    class="border-2 bg-[#F8F2CE] rounded-md p-2">
+                    class="border-gray-600 bg-white rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black placeholder-gray-400">
 
                 <label for="password">Password:</label>
                 <input type="password" name="password" id="password" placeholder="Ingresar contraseña" required
-                    class="border-2 bg-[#F8F2CE] rounded-md p-2">
+                    class="border-gray-600 bg-white rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black placeholder-gray-400">
 
                 <label for="confirm_password">Confirm Password:</label>
                 <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirmar contraseña"
-                    required class="border-2 bg-[#F8F2CE] rounded-md p-2">
+                    required
+                    class="border-gray-600 bg-white rounded-md p-2 focus:outline-none focus:ring-1 focus:ring-black placeholder-gray-400">
 
                 <button type="submit"
                     class="border rounded-2xl px-4 py-2 bg-[#F8F2CE] hover:bg-[#a9a598] transition mx-auto w-auto mt-5">Registrarse</button>
@@ -94,6 +104,16 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        const boton_nav = document.getElementById('boton_nav');
+        const nav_links = document.getElementById('nav_links');
+
+        boton_nav.addEventListener('click', () => {
+            nav_links.classList.toggle('hidden');
+        });
+
+    </script>
 </body>
 
 </html>
