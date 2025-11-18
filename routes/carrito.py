@@ -8,10 +8,6 @@ carrito_bp = Blueprint('carrito', __name__)
 def ver_carrito():
 
     cart = session.get('cart', [])
-
-    for item in cart:
-        print(item)
-
     return render_template('mi_carrito.html', cart=cart)
 
 @carrito_bp.route('/agregar_al_carrito', methods=['POST'])
