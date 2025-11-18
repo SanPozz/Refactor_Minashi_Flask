@@ -19,7 +19,7 @@ registro_minerales_bp = Blueprint('registro_minerales', __name__)
 @registro_minerales_bp.route('/registro_mineral', methods=['GET', 'POST'])
 def registrar_minerales():
 
-    url = f"{URL_API}?api_key={API_KEY}&unit=kg&currency=ARS"
+    # url = f"{URL_API}?api_key={API_KEY}&unit=kg&currency=ARS"
 
     headers = {}
 
@@ -55,7 +55,24 @@ def ver_stock():
     data = load_json_from_file()
     metals = data.get('metals', {})
     currency = data.get('currency', 'ARS')
-    return render_template('ver_stock.html', metals=metals, currency=currency)
+
+    minerales_db = Mineral.query.all()
+    minerales_completos = []
+    for mineral in minerales_db:
+        name = mineral.name
+        precio = metals.get(name)
+
+        minerales_completos.append({
+            'id': mineral.id,
+            'name': name,
+            'price': precio if precio else 'N/A',
+            'description': mineral.description,
+            'stock': mineral.stock,
+            'image_url': mineral.image_url
+
+        })
+        
+    return render_template('ver_stock.html', minerales=minerales_completos, currency=currency)
 
 
 @registro_minerales_bp.route('/editar_mineral/<nombre>', methods=['GET', 'POST'])
@@ -104,3 +121,4 @@ def save_json_to_file(data):
     path = os.path.normpath(path)
     with open(path, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
+        
