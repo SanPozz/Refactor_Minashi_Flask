@@ -51,10 +51,10 @@
     <main class="flex-grow">
         <section class="mt-10 text-center rounded-md border-1 w-full max-w-250 mx-auto p-10 bg-[#DDDAD0]">
             <h1 class="text-3xl font-bold mt-5 ">Perfil de Usuario</h1>
-            <div class="mt-6 text-left">
+            <div class="mt-6 text-left gap-4 flex flex-col">
                 <p><strong>Nombre de usuario:</strong> {{ current_user.username }}</p>
                 <p><strong>Email:</strong> {{ current_user.mail }}</p>
-                <!-- Agrega más detalles del perfil según sea necesario -->
+                <a href="{{ url_for('logout') }}" class="self-start inline-block w-auto bg-gray-200 px-4 py-2 rounded-lg cursor-pointer hover:bg-gray-300 transition">Cerrar sesión</a>
             </div>
         </section>
     </main>

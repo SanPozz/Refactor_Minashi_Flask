@@ -3,10 +3,8 @@
     "currency": "ARS",
     "unit": "kg",
     "metals": {
-        "silver": "2275636.1058",
         "platinum": 71618683.8539,
         "palladium": "65155342.3068",
-        "lbma_gold_am": 176500376.6106,
         "lbma_gold_pm": 177586459.4009,
         "lbma_silver": 2221592.1044,
         "lbma_platinum_am": 71581744.034,
