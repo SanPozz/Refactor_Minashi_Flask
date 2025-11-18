@@ -85,26 +85,41 @@
         <section class="mx-auto overflow-x-auto p-4 w-full max-w-5xl mt-24 lg:ml-70 transition-all duration-300">
             <h1 class="text-2xl font-bold mb-6 text-center">Stock de Minerales</h1>
 
-            {% if metals %}
+            {% if minerales %}
             <table class="w-full text-left rtl:text-right border border-gray-300 rounded-lg overflow-hidden shadow-md">
                 <thead class="uppercase bg-gray-700 text-white">
                     <tr>
+                        <th scope="col" class="px-6 py-3">ID</th>
+                        <th scope="col" class="px-6 py-3">Imagen</th>
                         <th scope="col" class="px-6 py-3">Mineral</th>
                         <th scope="col" class="px-6 py-3">Precio ({{ currency }})</th>
+                        <th scope="col" class="px-6 py-3">Descripcion</th>
+                        <th scope="col" class="px-6 py-3">Stock</th>
                         <th scope="col" class="px-6 py-3">Opciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for name, price in metals.items() %}
+                    {% for mineral in minerales %}
                     <tr class="border-b whitespace-nowrap odd:bg-white even:bg-gray-200">
-                        <td class="px-6 py-4">{{ name }}</td>
-                        <td class="px-6 py-4">{{ price }}</td>
+                        <td class="px-6 py-4">{{ mineral.id}}</td>
+                        <td class="px-6 py-4">
+                            {%if mineral.image_url %}
+                            <img src="{{ mineral.image_url }}" alt="{{ mineral.name }}"
+                                class="w-16 h-16 object-cover rounded">
+                            {% else %}
+                            <p class="text-gray-600">Sin imagen</p>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4">{{ mineral.name}}</td>
+                        <td class="px-6 py-4">{{ mineral.price}}</td>
+                        <td class="px-6 py-4">{{ mineral.description}}</td>
+                        <td class="px-6 py-4">{{ mineral.stock}}</td>
                         <td class="px-6 py-4 space-x-2">
-                            <a href="{{ url_for('registro_minerales.editar_mineral', nombre=name) }}"
+                            <a href="{{ url_for('registro_minerales.editar_mineral', nombre=mineral.name) }}"
                                 class="text-blue-600 hover:underline">Editar</a>
 
                             <form method="POST"
-                                action="{{ url_for('registro_minerales.eliminar_mineral', nombre=name) }}"
+                                action="{{ url_for('registro_minerales.eliminar_mineral', nombre=mineral.name) }}"
                                 class="inline">
                                 <button type="submit" title="Eliminar {{ name }}" class="text-red-600 hover:underline">
                                     Eliminar

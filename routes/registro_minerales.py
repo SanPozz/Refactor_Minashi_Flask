@@ -55,7 +55,25 @@ def ver_stock():
     data = load_json_from_file()
     metals = data.get('metals', {})
     currency = data.get('currency', 'ARS')
-    return render_template('ver_stock.html', metals=metals, currency=currency)
+
+    minerales_db = Mineral.query.all()
+
+    minerales_completos = []
+    for mineral in minerales_db:
+        if mineral.name in minerales_db:
+            name = mineral.name
+            price = metals(name)
+
+            minerales_completos.append({
+                'id': mineral.id,
+                'name': name,
+                'price': price,
+                'description': mineral.description,
+                'stock': mineral.stock,
+                'imgen_url': mineral.imagen_url
+
+            })
+    return render_template('ver_stock.html', minerales=minerales_completos, currency=currency)
 
 
 @registro_minerales_bp.route('/editar_mineral/<nombre>', methods=['GET', 'POST'])
