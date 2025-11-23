@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
     <title>Perfil - Minashi</title>
 </head>
+
 <body class="relative min-h-screen overflow-hidden bg-gray-50 overflow-y-auto flex flex-col min-h-screen">
     <header>
         <div class="relative bg-[#DDDAD0] shadow-xl ring-1 ring-gray-900/5">
@@ -23,41 +24,78 @@
                     </button>
                 </section>
                 <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0">
-                    <a href="{{ url_for('venta_minerales.comprar_minerales') }}" class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900">
-                            Comprar Minerales
+                    <a href="{{ url_for('venta_minerales.comprar_minerales') }}"
+                        class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900">
+                        Comprar Minerales
                     </a>
-                    <a href="#" class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900">
-                            Operaciones
+                    <a href="#"
+                        class="text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900">
+                        Operaciones
                     </a>
-
                 </div>
                 {% if user == false %}
-                    <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0">
-                        <a href="{{ url_for('login') }}" class=" text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded
-                        hover:text-gray-900 bg-[#F8F2CE] sm:mx-auto sm:w-auto sm:px-4 sm:py-2">
-                            <button>Iniciar sesion</button></a>
-                        <a href="{{url_for('register')}}" class=" text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded
-                        hover:text-gray-900 bg-[#F8F2CE] sm:mx-auto sm:w-auto sm:px-4 sm:py-2">
-                            <button>Registrarse</button></a>
-                    </div>
+                <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0">
+                    <a href="{{ url_for('login') }}"
+                        class=" text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900 bg-[#F8F2CE] sm:mx-auto sm:w-auto sm:px-4 sm:py-2">
+                        <button>Iniciar sesion</button></a>
+                    <a href="{{url_for('register')}}"
+                        class=" text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded hover:text-gray-900 bg-[#F8F2CE] sm:mx-auto sm:w-auto sm:px-4 sm:py-2">
+                        <button>Registrarse</button></a>
+                </div>
                 {% else %}
-                    <div>
-                        <span>Usuario: {{ current_user.username }}</span>
-                    </div>
+                <div>
+                    <span>Usuario: {{ current_user.username }}</span>
+                </div>
                 {% endif %}
             </nav>
         </div>
     </header>
     <main class="flex-grow">
+<<<<<<< HEAD
         <section class="mt-10 text-center rounded-md border-1 w-full max-w-250 mx-auto p-10 bg-[#DDDAD0]">
             <h1 class="text-3xl font-bold mt-5 ">Perfil de Usuario</h1>
             <div class="mt-6 text-left gap-4 flex flex-col">
                 <p><strong>Nombre de usuario:</strong> {{ current_user.username }}</p>
                 <p><strong>Email:</strong> {{ current_user.mail }}</p>
                 <a href="{{ url_for('logout') }}" class="self-start inline-block w-auto bg-gray-200 px-4 py-2 rounded-lg cursor-pointer hover:bg-gray-300 transition">Cerrar sesión</a>
+=======
+        <section class="mt-10 text-center rounded-md border-1 w-full max-w-lg mx-auto p-10 bg-[#DDDAD0] shadow-xl">
+            <h1 class="text-3xl font-bold mb-8">Perfil de Usuario</h1>
+
+            <div class="flex flex-col items-center mb-8">
+                {% if current_user.url %}
+                <img src="{{ current_user.url }}" alt="Foto de Perfil"
+                    class="w-32 h-32 rounded-full object-cover border-4 border-gray-600"></img>
+                {% else %}
+                <div
+                    class="w-32 h-32 rounded-full bg-white flex items-center justify-center text-black text-3xl border-4 border-gray-600">
+                    {{ current_user.username[0]|upper }}
+                </div>
+                {% endif %}
+                <p class="mt-2 text-sm text-gray-600">Foto de Perfil</p>
+            </div>
+
+            <form method="POST" action="{{ url_for('profile_bp.upload_profile_picture') }}"
+                enctype="multipart/form-data" class="mt-6 p-4 border border-gray-400 rounded-lg bg-gray-100">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700">Cambiar Foto de Perfil</h2>
+                <div class="flex flex-col items-start space-y-4">
+                    <input type="file" name="profile_picture" id="profile_picture" accept="image/*" required
+                        class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-500 file:text-white hover:file:bg-gray-700" />
+                    <button type="submit"
+                        class="w-full bg-[#DDDAD0] text-white py-2 rounded-lg hover:bg-gray-800 transition duration-150">
+                        Subir Imagen
+                    </button>
+                </div>
+            </form>
+
+            <div class="mt-8 text-left border-t pt-4 border-gray-400">
+                <p class="mb-2"><strong>Nombre de usuario:</strong> <span class="text-gray-700">{{ current_user.username
+                        }}</span></p>
+                <p><strong>Email:</strong> <span class="text-gray-700">{{ current_user.mail }}</span></p>
+>>>>>>> Axel_branch
             </div>
         </section>
     </main>
-
 </body>
+
 </html>

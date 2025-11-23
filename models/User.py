@@ -9,6 +9,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150), nullable=False)
     mail = db.Column(db.String(150), unique=True, nullable=False)
     role = db.Column(db.String(50), default='user')
+    url = db.Column(db.String(500), nullable=True)
 
 
     def __repr__(self):
@@ -19,5 +20,6 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'username': self.username,
             'mail': self.mail,
-            'role': self.role
+            'role': self.role,
+            'url': self.url
         }

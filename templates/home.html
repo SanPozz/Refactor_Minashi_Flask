@@ -36,19 +36,22 @@
 
                 </div>
                 {% if user == false %}
-                    <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0">
-                        <a href="{{ url_for('login') }}" class=" text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded
+                <div class="flex flex-col items-start mt-3 gap-2 sm:flex-row sm:m-0">
+                    <a href="{{ url_for('login') }}" class=" text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded
                         hover:text-gray-900 bg-[#F8F2CE] sm:mx-auto sm:w-auto sm:px-4 sm:py-2">
-                            <button>Iniciar sesion</button></a>
+                        <button>Iniciar sesion</button></a>
 
-                        <a href="{{url_for('register')}}" class=" text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded
+                    <a href="{{url_for('register')}}" class=" text-gray-600 hover:bg-gray-200 w-full text-left px-2 rounded
                         hover:text-gray-900 bg-[#F8F2CE] sm:mx-auto sm:w-auto sm:px-4 sm:py-2"><button>
-                                Registrarse</button></a>
-                    </div>
+                            Registrarse</button></a>
+                </div>
                 {% else %}
-                    <div>
-                        <span>Usuario: {{ current_user.username }}</span>
-                    </div>
+                <div>
+                    <span>Usuario: {{ current_user.username }}</span>
+                </div>
+                <div>
+                    <a href="{{ url_for('logout')}}">salir</a>
+                </div>
                 {% endif %}
             </nav>
         </div>

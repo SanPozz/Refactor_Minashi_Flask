@@ -21,16 +21,16 @@ def comprar_minerales():
     if current_user.role != 'user':
         return redirect(url_for('home'))
 
-    url = f"{URL_API}?api_key={API_KEY}&unit=kg&currency=ARS"
+    #url = f"{URL_API}?api_key={API_KEY}&unit=kg&currency=ARS"
 
-    headers = {}
+    #headers = {}
 
-    headers["Accept"] = "application/json"
+    #headers["Accept"] = "application/json"
 
-    resp = requests.get(url, headers=headers)
-    data = resp.json()
+    #resp = requests.get(url, headers=headers)
+    #data = resp.json()
 
-    # data = load_json_from_file()
+    data = load_json_from_file()
 
     currency = data['currency']
     metalsRaw = data['metals']

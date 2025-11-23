@@ -13,3 +13,4 @@ venv.bak/
 # Cache de Python
 __pycache__/
 *.pyc
+
