@@ -9,3 +9,4 @@ venv.bak/
 .env
 .env.*
 !.env.example
+config.py
