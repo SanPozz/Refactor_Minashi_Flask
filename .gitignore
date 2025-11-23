@@ -9,3 +9,6 @@ venv.bak/
 .env
 .env.*
 !.env.example
+
+# Cache de Python
+__pycache__/
