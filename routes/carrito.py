@@ -13,6 +13,7 @@ def ver_carrito():
 @carrito_bp.route('/agregar_al_carrito', methods=['POST'])
 def agregar_al_carrito():
 
+
     if request.method == 'POST':
         metal = request.form['metal']
         precio = float(request.form['precio'])
@@ -36,8 +37,10 @@ def agregar_al_carrito():
         if existe == False:
             cart.append(prod.to_dict())
 
+
         session['cart'] = cart
         session.modified = True
+
 
         return redirect(url_for('venta_minerales.comprar_minerales', resultado='agregado'))
     
@@ -46,3 +49,4 @@ def vaciar_carrito():
         session['cart'] = []
         session.modified = True
         return redirect(url_for('carrito.ver_carrito'))
+

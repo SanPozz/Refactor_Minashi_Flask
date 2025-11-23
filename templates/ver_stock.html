@@ -103,13 +103,18 @@
                     <tr class="border-b whitespace-nowrap odd:bg-white even:bg-gray-200">
                         <td class="px-6 py-4">{{ mineral.id}}</td>
                         <td class="px-6 py-4">
-                            {% if mineral.image.url %}
+
+                            {%if mineral.image_url %}
                             <img src="{{ mineral.image_url }}" alt="{{ mineral.name }}"
-                                class="w-16 h-16 object-cover rounded-md mb-2">
+                                class="w-16 h-16 object-cover rounded">
                             {% else %}
                             <p class="text-gray-600">Sin imagen</p>
                             {% endif %}
                         </td>
+                        <td class="px-6 py-4">{{ mineral.name}}</td>
+                        <td class="px-6 py-4">{{ mineral.price}}</td>
+                        <td class="px-6 py-4">{{ mineral.description}}</td>
+                        <td class="px-6 py-4">{{ mineral.stock}}</td>
                         <td class="px-6 py-4 space-x-2">
                             <a href="{{ url_for('registro_minerales.editar_mineral', nombre=mineral.name) }}"
                                 class="text-blue-600 hover:underline">Editar</a>

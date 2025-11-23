@@ -57,21 +57,23 @@ def ver_stock():
     currency = data.get('currency', 'ARS')
 
     minerales_db = Mineral.query.all()
+
+
     minerales_completos = []
     for mineral in minerales_db:
-        name = mineral.name
-        precio = metals.get(name)
+        if mineral.name in minerales_db:
+            name = mineral.name
+            price = metals(name)
 
-        minerales_completos.append({
-            'id': mineral.id,
-            'name': name,
-            'price': precio if precio else 'N/A',
-            'description': mineral.description,
-            'stock': mineral.stock,
-            'image_url': mineral.image_url
+            minerales_completos.append({
+                'id': mineral.id,
+                'name': name,
+                'price': price,
+                'description': mineral.description,
+                'stock': mineral.stock,
+                'imgen_url': mineral.imagen_url
 
-        })
-        
+            })
     return render_template('ver_stock.html', minerales=minerales_completos, currency=currency)
 
 
