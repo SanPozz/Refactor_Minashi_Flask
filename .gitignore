@@ -10,3 +10,6 @@ venv.bak/
 .env.*
 !.env.example
 config.py
+
+# Cache de Python
+__pycache__/
