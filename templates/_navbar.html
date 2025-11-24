@@ -1,0 +1,62 @@
+<nav class="bg-[#DDDAD0] shadow-xl ring-1 ring-gray-900/5">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex justify-between items-center py-4">
+      <a href="/" class="flex items-center gap-2">
+        <img src="{{ url_for('static', filename='assets/pico.png') }}" class="h-8" alt="Mineria" />
+        <span class="font-bold text-[#22223B] text-lg hidden sm:inline">Minashi</span>
+      </a>
+      <div class="hidden sm:flex gap-6 items-center">
+        <a href="{{ url_for('venta_minerales.comprar_minerales') }}" class="text-gray-700 font-medium transition-colors duration-200 hover:text-[#4A4E69] hover:underline">Comprar Minerales</a>
+        <a href="{{ url_for('pedidos.mis_pedidos') }}" class="text-gray-700 font-medium transition-colors duration-200 hover:text-[#4A4E69] hover:underline">Mis Pedidos</a>
+        <a href="{{ url_for('carrito.ver_carrito') }}" class="text-gray-700 hover:text-[#4A4E69] transition-colors duration-200">
+          <svg class="inline w-7 h-7 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" />
+            <circle cx="9" cy="21" r="1" />
+            <circle cx="20" cy="21" r="1" />
+          </svg>
+        </a>
+        {% if user == false %}
+          <a href="{{ url_for('login') }}" class="bg-[#F8F2CE] text-gray-700 px-4 py-2 rounded-lg font-semibold transition-colors duration-200 hover:bg-[#e7e2c3] hover:underline">Iniciar sesión</a>
+          <a href="{{ url_for('register') }}" class="bg-[#F8F2CE] text-gray-700 px-4 py-2 rounded-lg font-semibold transition-colors duration-200 hover:bg-[#e7e2c3] hover:underline">Registrarse</a>
+        {% else %}
+          <a href="{{ url_for('profile')}}">
+            <img src="{{ current_user.url }}" alt="Avatar" class="w-9 h-9 rounded-full object-cover border-2 border-[#7A7A72] mr-2" />
+          </a>
+          <a href="{{ url_for('logout') }}" class="bg-[#7A7A72] text-[#F8F2CE] px-4 py-2 rounded-lg font-semibold transition-colors duration-200 hover:bg-[#4A4E69] hover:underline">Cerrar sesión</a>
+        {% endif %}
+      </div>
+      <button id="nav-toggle" class="sm:hidden text-gray-700 focus:outline-none">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+      </button>
+    </div>
+    <div id="nav-menu" class="sm:hidden flex flex-col gap-2 pb-4 hidden">
+      <a href="{{ url_for('venta_minerales.comprar_minerales') }}" class="text-gray-700 font-medium transition-colors duration-200 hover:text-[#4A4E69] hover:underline">Comprar Minerales</a>
+      <a href="{{ url_for('pedidos.mis_pedidos') }}" class="text-gray-700 font-medium transition-colors duration-200 hover:text-[#4A4E69] hover:underline">Mis Pedidos</a>
+      <a href="{{ url_for('carrito.ver_carrito') }}" class="text-gray-700 hover:text-[#4A4E69] transition-colors duration-200">
+        <svg class="inline w-7 h-7 mr-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" />
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+        </svg>
+      </a>
+      {% if user == false %}
+        <a href="{{ url_for('login') }}" class="bg-[#F8F2CE] text-gray-700 px-4 py-2 rounded-lg font-semibold transition-colors duration-200 hover:bg-[#e7e2c3] hover:underline">Iniciar sesión</a>
+        <a href="{{ url_for('register') }}" class="bg-[#F8F2CE] text-gray-700 px-4 py-2 rounded-lg font-semibold transition-colors duration-200 hover:bg-[#e7e2c3] hover:underline">Registrarse</a>
+      {% else %}
+        <a href="{{ url_for('profile')}}">
+          <img src="{{ current_user.url }}" alt="Avatar" class="w-9 h-9 rounded-full object-cover border-2 border-[#7A7A72] mr-2" />
+        </a>
+        <a href="{{ url_for('logout') }}" class="bg-[#7A7A72] text-[#F8F2CE] px-4 py-2 rounded-lg font-semibold transition-colors duration-200 hover:bg-[#4A4E69] hover:underline">Cerrar sesión</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<script>
+document.getElementById('nav-toggle').addEventListener('click', function() {
+  const menu = document.getElementById('nav-menu');
+  menu.classList.toggle('hidden');
+});
+</script>

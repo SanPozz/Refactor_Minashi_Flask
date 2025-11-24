@@ -10,33 +10,8 @@
 
 <body>
 
-    <header class="bg-[#DDDAD0] px-2 h-[15vh]">
-        <nav class="h-full flex justify-between items-center">
-            <div>
-                <a href="{{ url_for('home') }}" class="">
-                    <img src="" alt="LOGO">
-                </a>
-            </div>
-            <div class="h-full flex items-end gap-6">
-                <a href="{{ url_for('venta_minerales.comprar_minerales') }}"
-                    class="bg-[#7A7A72] text-[#F8F2CE] p-2">Comprar Minerales</a>
-                <a href="{{ url_for('pedidos.mis_pedidos') }}" class=" p-2">Mis Pedidos</a>
-            </div>
-            <div>
-                <div>
-                    <a href="{{url_for('profile')}}">Usuario: {{ current_user.username }}</a>
-
-                </div>
-                <div>
-                    <a href="{{ url_for('logout')}}"></a>
-                </div>
-                <div>
-                    <a href="{{ url_for('carrito.ver_carrito') }}">
-                        <img src="" alt="Carrito">
-                    </a>
-                </div>
-            </div>
-        </nav>
+    <header class="">
+        {% include '_navbar.html' %}
     </header>
 
     <section class="h-[15vh] w-full flex items-center, justify-between p-6">
