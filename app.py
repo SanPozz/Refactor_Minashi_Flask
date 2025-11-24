@@ -1,5 +1,5 @@
 import os
-from flask_migrate import Migrate
+
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_bcrypt import Bcrypt
 from flask_login import (
@@ -19,7 +19,9 @@ from routes.pedidos import pedidos_bp
 from routes.carrito import carrito_bp
 from routes.registro_minerales import registro_minerales_bp
 from routes.google_auth import auth_bp
+from routes.admin_panel import admin_panel_bp
 from routes.profile import profile_bp
+
 from models.User import User
 
 
@@ -48,7 +50,6 @@ google = oauth.register(
 app.google = google
 init_db(app)
 
-migrate = Migrate(app, db)
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
@@ -62,7 +63,9 @@ app.register_blueprint(pedidos_bp)
 app.register_blueprint(carrito_bp)
 app.register_blueprint(registro_minerales_bp)
 app.register_blueprint(auth_bp)
+app.register_blueprint(admin_panel_bp)
 app.register_blueprint(profile_bp)
+
 
 
 @app.route('/')

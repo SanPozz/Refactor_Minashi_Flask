@@ -56,18 +56,25 @@
             </nav>
         </div>
 
-        <section class="mt-10 text-center rounded-md border-1 w-full max-w-250 mx-auto">
-            <h2 class="py-6">Acerca de nosotros</h2>
-            <p class="p-6 py-6">
-                En nuestra empresa de minería nos dedicamos con compromiso y pasión
-                a la extracción responsable de minerales esenciales para el desarrollo de
-                la industria y la vida cotidiana. Creemos firmemente en la innovación, la
-                sostenibilidad y el respeto por el medio ambiente, aplicando tecnologías
-                modernas que nos permiten optimizar procesos y reducir el impacto
-                ambiental. Nuestro equipo está conformado por profesionales altamente
-                capacitados que garantizan calidad, seguridad y eficiencia en cada etapa
-                de trabajo. Más que una empresa minera, somos un socio estratégico que
-                impulsa el crecimiento y el progreso de la comunidad.</p>
+        <section class="w-full h-[80vh] bg-cover bg-center relative"
+            style="background-image: url('{{ url_for('static', filename='assets/landing_back.png') }}');">
+
+            <div class="absolute inset-0 bg-black/60 z-0"></div>
+
+            <div class="relative z-10 flex flex-col justify-center pl-22 h-full text-white">
+                <h2 class="py-6 text-4xl font-bold">Acerca de nosotros</h2>
+                <p class="p-6 py-6 max-w-2xl text-preety text-xl">
+                    En nuestra empresa de minería nos dedicamos con compromiso y pasión
+                    a la extracción responsable de minerales esenciales para el desarrollo de
+                    la industria y la vida cotidiana. Creemos firmemente en la innovación, la
+                    sostenibilidad y el respeto por el medio ambiente, aplicando tecnologías
+                    modernas que nos permiten optimizar procesos y reducir el impacto
+                    ambiental. Nuestro equipo está conformado por profesionales altamente
+                    capacitados que garantizan calidad, seguridad y eficiencia en cada etapa
+                    de trabajo. Más que una empresa minera, somos un socio estratégico que
+                    impulsa el crecimiento y el progreso de la comunidad.
+                </p>
+            </div>
         </section>
 
         <section class="flex flex-col items-center mt-10">

@@ -9,8 +9,9 @@ venv.bak/
 .env
 .env.*
 !.env.example
-config.py
 
 # Cache de Python
 __pycache__/
 *.pyc
+config.py
+
