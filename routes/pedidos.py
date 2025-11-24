@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from flask_login import login_required
+from flask_login import login_required, current_user
 
 from models.Pedido import Pedido
 
@@ -9,7 +9,9 @@ pedidos_bp = Blueprint('pedidos', __name__)
 @login_required
 def mis_pedidos():
 
-    pedidos = Pedido.query.all()
+    user = current_user
+
+    pedidos = Pedido.query.filter_by(user_id=user.id).all()
     
     return render_template('mis_pedidos.html', pedidos=pedidos)
 

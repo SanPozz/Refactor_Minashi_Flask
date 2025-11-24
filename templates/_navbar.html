@@ -23,6 +23,9 @@
             <img src="{{ current_user.url }}" alt="Avatar" class="w-9 h-9 rounded-full object-cover border-2 border-[#7A7A72] mr-2" />
           </a>
           <a href="{{ url_for('logout') }}" class="bg-[#7A7A72] text-[#F8F2CE] px-4 py-2 rounded-lg font-semibold transition-colors duration-200 hover:bg-[#4A4E69] hover:underline">Cerrar sesión</a>
+          {% if current_user.role == 'admin' %}
+            <a href="{{ url_for('registro_minerales.ver_stock') }}" class="bg-[#4A4E69] text-[#F8F2CE] px-4 py-2 rounded-lg font-semibold transition-colors duration-200 hover:bg-[#22223B] hover:underline">Panel Admin</a>
+          {% endif %}
         {% endif %}
       </div>
       <button id="nav-toggle" class="sm:hidden text-gray-700 focus:outline-none">

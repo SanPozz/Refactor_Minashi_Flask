@@ -23,8 +23,10 @@
                         d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                 </svg>
             </button>
-            <a href="#" class="ml-3">
-                <img src="" alt="LOGO"></a>
+            <a href="/" class="ml-3">
+                <img src="{{ url_for('static', filename='assets/pico.png') }}" alt="LOGO" class="h-8 inline invert"/>
+                <span class="font-bold text-lg align-middle ml-2">Minashi</span>
+            </a>
         </div>
 
         <div class="hover:bg-[#E6425A]/50 p-2 rounded bg-[#E6425A]">
@@ -38,6 +40,8 @@
         </div>
     </header>
     <main class="flex relative top-16 left-0 right-0 bottom-0 bg-gray-100 pt-8 lg:pt-10 overflow-y-auto min-h-screen">
+
+        
 
 
         <div id="overlay"
@@ -93,6 +97,14 @@
 
         <section class="mx-auto overflow-x-auto p-4 w-full max-w-5xl mt-24 lg:ml-70 transition-all duration-300">
             <h1 class="text-2xl font-bold mb-6 text-center">Stock de Minerales</h1>
+
+            <div class="m-4">
+                <a href="{{ url_for('registro_minerales.exportar_csv', page='minerales') }}"
+                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                    Exportar CSV
+                </a>                
+            </div>
+
 
             {% if minerales %}
             <table class="w-full text-left rtl:text-right border border-gray-300 rounded-lg overflow-hidden shadow-md">

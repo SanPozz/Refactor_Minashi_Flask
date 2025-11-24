@@ -51,6 +51,31 @@
                 </tr>
             </thead>
             <tbody class="h-[80%]">
+
+                {% for metalDB in metalsDB %}
+                    <tr class="h-10 border-b border-gray-200 hover:bg-gray-50">
+                        <td class="px-5 py4 text-sm">{{ metalDB.name }}</td>
+                        <td class="px-5 py4 text-sm">{{ metalDB.price }}$ {{ currency }}</td>
+                        <td class="text-sm p-0 cursor-pointer transition-colors duration-150">
+                            <form method="POST" action="{{url_for('carrito.agregar_al_carrito')}}"
+                                class="h-full w-full flex items-center justify-center gap-2 p-2">
+                                <div class="flex flex-col items-center">
+                                    <label class="text-start">Cantidad:</label>
+                                    <input type="number" name="cantidad" id="cantidad" min="1"
+                                        class="w-16 p-1 border border-gray-300 rounded-md mr-2" placeholder="KG">
+                                </div>
+                                <button type="submit" class="p-2 bg-gray-300 hover:bg-gray-400 rounded-md cursor-pointer">
+                                    Agregar al Carrito
+                                </button>
+
+                                <input type="hidden" name="metal" value="{{ metalDB.name }}">
+                                <input type="hidden" name="precio" value="{{ metalDB.price }}">
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+
                 {% for metal, precio in metals.items() %}
                 <tr class="h-10 border-b border-gray-200 hover:bg-gray-50">
                     <td class="px-5 py4 text-sm">{{ metal | capitalize }}</td>
