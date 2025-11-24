@@ -74,14 +74,11 @@ def ver_stock():
     nombres_procesados = []
 
     for mineral in minerales_db:
-        
-            
-            price = metals.get(mineral.name, 0)
 
             minerales_completos.append({
                 'id': mineral.id,
                 'name': mineral.name,
-                'price': price,
+                'price': mineral.price,
                 'description': mineral.description,
                 'stock': mineral.stock,
                 'es_base': True
@@ -99,6 +96,10 @@ def ver_stock():
                 'image_url': '', 
                 'es_base': False 
             })
+
+
+    print("Precio Minerales:", minerales_completos)
+
     return render_template('ver_stock.html', minerales=minerales_completos, currency=currency)
 
 
