@@ -4,18 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock de Minerales</title>
+    <title>Gestión de Usuarios</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
 
-
     <header class="flex justify-between items-center p-4 bg-[#212832] text-white fixed w-full top-0 z-40">
         <div class="flex">
-
             <button id="boton_aside" class="lg:hidden">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
@@ -28,8 +25,6 @@
         </div>
 
         <div class="hover:bg-[#E6425A]/50 p-2 rounded bg-[#E6425A]">
-
-
             <a href="{{ url_for('logout')}}" class=""><svg xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 inline">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -60,7 +55,7 @@
 
             <div class="text-center p-4 border-b-2 border-gray-600 text-black text-lg">
                 <a href="{{ url_for('profile_bp.perfil') }}"
-                    class="flex  bg-white items-center gap-2 px-3 py-1 rounded-full hover:bg-white/50 transition duration-200 border border-transparent hover:border-gray-300">
+                    class="flex  bg-white items-center gap-2 px-3 py-1 rounded-full hover:bg-white/50 transition duration-200 border border-transparent hover:border-gray-300">
 
                     {% if current_user.url %}
                     <img src="{{ current_user.url }}" alt="Avatar"
@@ -87,57 +82,78 @@
 
                 <a href="{{ url_for('registro_minerales.usuarios') }}"
                     class="text-center hover:bg-gray-200/50  border-gray-600 py-3">Gestionar Usuarios</a>
+
             </div>
         </div>
 
 
         <section class="mx-auto overflow-x-auto p-4 w-full max-w-5xl mt-24 lg:ml-70 transition-all duration-300">
-            <h1 class="text-2xl font-bold mb-6 text-center">Stock de Minerales</h1>
+            <h1 class="text-2xl font-bold mb-6 text-center">Gestión de Usuarios</h1>
 
-            {% if minerales %}
-            <table class="w-full text-left rtl:text-right border border-gray-300 rounded-lg overflow-hidden shadow-md">
-                <thead class="uppercase bg-gray-700 text-white">
-                    <tr>
-                        <th scope="col" class="px-6 py-3">ID</th>
-                        <th scope="col" class="px-6 py-3">Mineral</th>
-                        <th scope="col" class="px-6 py-3">Precio ({{ currency }})</th>
-                        <th scope="col" class="px-6 py-3">Descripcion</th>
-                        <th scope="col" class="px-6 py-3">Stock</th>
-                        <th scope="col" class="px-6 py-3">Opciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for mineral in minerales %}
-                    <tr class="border-b whitespace-nowrap odd:bg-white even:bg-gray-200">
-                        <td class="px-6 py-4">{{ mineral.id}}</td>
-                        <td class="px-6 py-4">{{ mineral.name}}</td>
-                        <td class="px-6 py-4">{{ mineral.price}}</td>
-                        <td class="px-6 py-4">{{ mineral.description}}</td>
-                        <td class="px-6 py-4">{{ mineral.stock}}</td>
-                        <td class="px-6 py-4 space-x-2">
-                            {% if mineral.es_base %}
-                            <a href="{{ url_for('registro_minerales.editar_mineral', nombre=mineral.name) }}"
-                                class="text-blue-600 hover:underline">Editar</a>
+            <div class="flex flex-wrap items-center justify-between mb-4 gap-2">
 
-                            <form method="POST"
-                                action="{{ url_for('registro_minerales.eliminar_mineral', nombre=mineral.name) }}"
-                                class="inline">
-                                <button type="submit" title="Eliminar {{ mineral.name }}"
-                                    class="text-red-600 hover:underline">
-                                    Eliminar
-                                </button>
-                            </form>
-                            {% else %}
-                            <span class="text-gray-500">No disponible</span>
-                            {% endif %}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-            <p class="text-center mt-10 text-gray-600">No hay minerales registrados.</p>
-            {% endif %}
+
+                <a href="{{ url_for('registro_minerales.exportar_csv', page='usuarios') }}"
+                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                    Exportar CSV
+                </a>
+            </div>
+
+            <div class=" p-6 overflow-x-auto">
+                {% if users %}
+                <table
+                    class="w-full text-left rtl:text-right border border-gray-300 rounded-lg overflow-hidden shadow-md">
+                    <thead class="uppercase bg-gray-700 text-white">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">ID</th>
+                            <th scope="col" class="px-6 py-3">Usuario</th>
+                            <th scope="col" class="px-6 py-3">Email</th>
+                            <th scope="col" class="px-6 py-3">Rol</th>
+                            <th scope="col" class="px-6 py-3">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr class="border-b whitespace-nowrap odd:bg-white even:bg-gray-200">
+                            <td class="px-6 py-4">{{ user.id }}</td>
+                            <td class="px-6 py-4">{{ user.username }}</td>
+                            <td class="px-6 py-4">{{ user.mail }}</td>
+                            <td class="px-6 py-4">{{ user.role }}</td>
+                            <td class="px-6 py-4 space-x-2 flex items-center">
+
+                                <form action="{{ url_for('registro_minerales.editar_rol_usuario', user_id=user.id) }}"
+                                    method="POST"
+                                    class="inline-flex items-center space-x-1 border border-gray-400 p-1 rounded bg-white mr-2">
+
+                                    <select name="role" class="p-1 text-sm rounded focus:ring-0 focus:outline-none">
+                                        <option value="user" {% if user.role=='user' %}selected{% endif %}>User</option>
+                                        <option value="admin" {% if user.role=='admin' %}selected{% endif %}>Admin
+                                        </option>
+                                    </select>
+                                    <button type="submit"
+                                        class="bg-yellow-500 text-white p-1 rounded hover:bg-yellow-600 text-xs shadow">
+                                        Cambiar Rol
+                                    </button>
+                                </form>
+
+                                <form action="{{ url_for('registro_minerales.eliminar_usuario', user_id=user.id) }}"
+                                    method="POST" class="inline-block">
+                                    <button type="submit"
+                                        onclick="return confirm('¿Estás seguro de que deseas eliminar a {{ user.username }}?');"
+                                        class="bg-red-600 text-white p-1 rounded hover:bg-red-700 text-xs shadow">
+                                        Eliminar
+                                    </button>
+                                </form>
+
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p class="text-center mt-10 text-gray-600">No hay usuarios para mostrar.</p>
+                {% endif %}
+            </div>
         </section>
     </main>
 
@@ -165,7 +181,6 @@
         });
 
     </script>
-
 </body>
 
 </html>

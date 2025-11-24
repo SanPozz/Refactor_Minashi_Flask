@@ -1,10 +1,13 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for,Response,flash
 from dotenv import load_dotenv;
 import os,json;
 from flask import current_app
 import requests;
 from models.Mineral import Mineral
+from models.User import User
 from database import db
+import pandas as pd
+from datetime import datetime
 
 load_dotenv();
 
@@ -26,9 +29,10 @@ def registrar_minerales():
     headers["Accept"] = "application/json"
 
     if request.method == 'POST':
-        name = request.form['name']
-        price = request.form['price']
-        stock = request.form['stock']
+        name = request.form.get('name')
+        price = request.form.get('price')
+        stock = request.form.get('stock')
+        description = request.form.get('description')
         
         if not name or not price or not stock:
             return render_template('registro_mineral.html', error='Todos los campos son obligatorios')
@@ -36,14 +40,21 @@ def registrar_minerales():
         if Mineral.query.filter_by(name=name).first():
             return render_template('registro_mineral.html', error='El mineral ya está registrado')
         
-        data = load_json_from_file()
-        metals = data.get('metals', {})
+        try:
+            mineral_nuevo = Mineral(
+                name=name,
+                price=float(price),
+                stock=int(stock),
+                description=description if description else 'No description available'
+            )
+            db.session.add(mineral_nuevo)
+            db.session.commit()
+            
+            return redirect(url_for('registro_minerales.ver_stock'))
+        except Exception as e:
+            db.session.rollback()
+            return render_template('registro_mineral.html', error='Error al registrar el mineral en la base de datos')
 
-        metals[name] = float(price), int(stock)
-        data['metals'] = metals
-
-        save_json_to_file(data)
-        return redirect(url_for('registro_minerales.ver_stock'))
     return render_template('registro_mineral.html')
 
 
@@ -60,55 +71,159 @@ def ver_stock():
 
 
     minerales_completos = []
+    nombres_procesados = []
+
     for mineral in minerales_db:
-        if mineral.name in minerales_db:
-            name = mineral.name
-            price = metals(name)
+        
+            
+            price = metals.get(mineral.name, 0)
 
             minerales_completos.append({
                 'id': mineral.id,
-                'name': name,
+                'name': mineral.name,
                 'price': price,
                 'description': mineral.description,
                 'stock': mineral.stock,
-                'imgen_url': mineral.imagen_url
+                'es_base': True
 
+            })
+
+    for nombre_metal, precio in metals.items():
+        if nombre_metal not in nombres_procesados:
+            minerales_completos.append({
+                'id': '-',
+                'name': nombre_metal,
+                'price': precio,
+                'description': 'Mineral externo (JSON)',
+                'stock': '-',
+                'image_url': '', 
+                'es_base': False 
             })
     return render_template('ver_stock.html', minerales=minerales_completos, currency=currency)
 
 
 @registro_minerales_bp.route('/editar_mineral/<nombre>', methods=['GET', 'POST'])
 def editar_mineral(nombre):
-    data = load_json_from_file()
-    metals = data.get('metals', {})
-
-    if request.method == 'POST' :
-        nuevo_nombre = request.form['name']
-        nuevo_precio = request.form['price']
-
-        if nombre in metals:
-            if nuevo_nombre != nombre:
-                metals.pop(nombre)
-            metals[nuevo_nombre] = nuevo_precio
-            data['metals'] = metals
-            save_json_to_file(data)
-            return redirect(url_for('registro_minerales.ver_stock'))
     
-    precio_actual = metals.get(nombre)
-    return render_template('editar_mineral.html', nombre=nombre, precio=precio_actual)
+    mineral = Mineral.query.filter_by(name=nombre).first()
+
+    
+    if not mineral:
+        return redirect(url_for('registro_minerales.ver_stock'))
+
+    if request.method == 'POST':
+       
+        nuevo_nombre = request.form.get('name')
+        nuevo_precio = request.form.get('price')
+        nuevo_stock = request.form.get('stock')
+        nueva_descripcion = request.form.get('description')
+
+        try:
+            
+            mineral.name = nuevo_nombre
+            mineral.price = float(nuevo_precio)
+            mineral.stock = int(nuevo_stock)
+            mineral.description = nueva_descripcion
+            
+            
+            db.session.commit()
+            return redirect(url_for('registro_minerales.ver_stock'))
+            
+        except Exception as e:
+            db.session.rollback()
+            return render_template('editar_mineral.html', mineral=mineral, error="Error al actualizar")
+
+    
+    return render_template('editar_mineral.html', mineral=mineral)
 
 @registro_minerales_bp.route('/eliminar_mineral/<nombre>', methods=['POST'])
 def eliminar_mineral(nombre):
-    data = load_json_from_file()
-    metals = data.get('metals', {})
-    if nombre in metals:
-        metals.pop(nombre)
-        data['metals'] = metals
-        save_json_to_file(data)
+
+    mineral = Mineral.query.filter_by(name=nombre).first()
+
+    if mineral:
+        try:
+            db.session.delete(mineral)
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+    
     return redirect(url_for('registro_minerales.ver_stock'))
 
 
+@registro_minerales_bp.route('/usuarios')
+def usuarios():
+    users = User.query.all()
+    return render_template('usuarios.html', users=users)
 
+
+@registro_minerales_bp.route('/exportar_csv', methods=['GET'])
+def exportar_csv():
+   
+    section = request.args.get('page', '')
+    df = None 
+
+    if section not in ['usuarios', 'minerales']:
+        return redirect(url_for('registro_minerales.ver_stock'))
+    
+    if section == 'usuarios':
+        users = User.query.all()
+        data = [{'ID': user.id, 'Nombre': user.username, 'Email': user.mail, 'Role': user.role} for user in users]
+        df = pd.DataFrame(data)
+
+    elif section == 'minerales':
+        
+        url = f"{URL_API}?api_key={API_KEY}&unit=kg&currency=ARS"
+        headers = {"Accept": "application/json"}
+        
+        try:
+            resp = requests.get(url, headers=headers)
+            resp.raise_for_status() 
+            data = resp.json()
+            
+            metalsRaw = data.get('metals', {})
+            data_list = [{'Mineral': metal, 'Precio': precio} for metal, precio in metalsRaw.items()]
+            df = pd.DataFrame(data_list)
+        except requests.exceptions.RequestException as e:
+            current_app.logger.error(f"Error al obtener datos de la API para exportar minerales: {e}")
+            return Response("Error al obtener datos de minerales para exportar.", status=500)
+
+    if df is not None:
+        csv_data = df.to_csv(index=False)
+        return Response(
+            csv_data,
+            mimetype='text/csv',
+            headers={
+                'Content-Disposition': f'attachment;filename={section}_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
+            }
+        )
+    
+    return redirect(url_for('registro_minerales.ver_stock')) 
+
+@registro_minerales_bp.route('/editar_rol/<int:user_id>', methods=['POST'])
+def editar_rol_usuario(user_id):
+    user_to_edit = User.query.get_or_404(user_id)
+    new_role = request.form.get('role')
+    allowed_roles = ['user', 'admin']
+    if new_role not in allowed_roles:
+        flash('Rol no válido.', 'error')
+        return redirect(url_for('registro_minerales.usuarios'))
+    user_to_edit.role = new_role
+    db.session.commit()
+    flash('Rol actualizado con éxito.', 'success')
+    return redirect(url_for('registro_minerales.usuarios'))
+
+@registro_minerales_bp.route('/eliminar_usuario/<int:user_id>', methods=['POST'])
+def eliminar_usuario(user_id):
+    user_to_delete = User.query.get_or_404(user_id)
+    username = user_to_delete.username
+    
+    db.session.delete(user_to_delete)
+    db.session.commit()
+    flash(f'Usuario {username} eliminado con éxito.', 'success')
+    return redirect(url_for('registro_minerales.usuarios'))
+    
+            
 #----------------------------------------------------------------------------
 def load_json_from_file():
 

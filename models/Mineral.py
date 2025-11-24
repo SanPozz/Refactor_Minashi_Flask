@@ -8,7 +8,6 @@ class Mineral(db.Model):
     description = db.Column(db.Text, nullable=False, default='No description available')
     price = db.Column(db.Float, nullable=False)
     stock = db.Column(db.Integer, nullable=False)
-    image_url = db.Column(db.String(250), nullable=True)
 
     def __repr__(self):
         return f"Mineral('{self.name}', '{self.price}')"
@@ -20,5 +19,4 @@ class Mineral(db.Model):
             'description': self.description,
             'price': self.price,
             'stock': self.stock,
-            'image_url': self.image_url
         }

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comprar Minerales</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
+
 <body>
 
     <header class="bg-[#DDDAD0] px-2 h-[15vh]">
@@ -16,7 +18,8 @@
                 </a>
             </div>
             <div class="h-full flex items-end gap-6">
-                <a href="{{ url_for('venta_minerales.comprar_minerales') }}" class="bg-[#7A7A72] text-[#F8F2CE] p-2">Comprar Minerales</a>
+                <a href="{{ url_for('venta_minerales.comprar_minerales') }}"
+                    class="bg-[#7A7A72] text-[#F8F2CE] p-2">Comprar Minerales</a>
                 <a href="{{ url_for('pedidos.mis_pedidos') }}" class=" p-2">Mis Pedidos</a>
             </div>
             <div>
@@ -49,11 +52,11 @@
                     </thead>
                     <tbody>
                         {% for item in cart %}
-                            <tr class="h-4">
-                                {% for values in item.values() %}
-                                    <td class="py-2">{{ values }}</td>
-                                {% endfor %}
-                            </tr>
+                        <tr class="h-4">
+                            {% for values in item.values() %}
+                            <td class="py-2">{{ values }}</td>
+                            {% endfor %}
+                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -84,4 +87,5 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </body>
+
 </html>

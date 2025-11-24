@@ -1,23 +1,156 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Editar Mineral - Minashi</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <h1>Editar Mineral</h1>
-    <form method="POST">
-        <label>Nombre:</label>
-        <input type="text" name="name" value="{{ nombre }}" required><br>
-        <label>Precio:</label>
-        <input type="number" step="0.01" name="price" value="{{ precio }}" required><br><br>
-        <button type="submit">Guardar Cambios</button>
-    </form>
-    <a href="{{ url_for('registro_minerales.ver_stock') }}">Volver</a>
+    <header class="flex justify-between items-center p-4 bg-[#212832] text-white fixed w-full top-0 z-40">
+        <div class="flex">
+            <button id="boton_aside" class="lg:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+            </button>
+            <a href="#" class="ml-3">
+                <span class="">LOGO</span>
+            </a>
+        </div>
 
+        <div class="hover:bg-[#E6425A]/50 p-2 rounded bg-[#E6425A]">
+            <a href="{{ url_for('logout') }}" class="">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="size-6 inline">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                </svg> Cerrar Sesión
+            </a>
+        </div>
+    </header>
+
+    <main class="flex relative top-16 left-0 right-0 bottom-0 bg-gray-100 pt-8 lg:pt-10 overflow-y-auto min-h-screen">
+
+        <div id="overlay"
+            class="hidden bg-gray-600/50 min-h-screen w-full fixed top-0 left-0 right-0 backdrop-blur-sm lg:hidden z-40">
+        </div>
+
+        <div id="menu_aside"
+            class="bg-[#212832] min-h-screen w-80 lg:w-60 fixed top-0 lg:top-19 left-0 transform -translate-x-full transition-transform duration-300 text-white lg:translate-x-0 z-50">
+            <div class="py-4 px-4 flex justify-between items-center pb-3 lg:hidden">
+                <button id="cerrar_aside">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="text-center p-4 border-b-2 border-gray-600 text-black text-lg">
+                <a href="{{ url_for('profile_bp.perfil') }}"
+                    class="flex  bg-white items-center gap-2 px-3 py-1 rounded-full hover:bg-white/50 transition duration-200 border border-transparent hover:border-gray-300">
+
+                    {% if current_user.url %}
+                    <img src="{{ current_user.url }}" alt="Avatar"
+                        class="w-8 h-8 rounded-full object-cover border border-gray-600 shadow-sm">
+                    {% else %}
+                    <div
+                        class="w-8 h-8 rounded-full bg-white flex items-center justify-center text-gray-800 font-bold border border-gray-600 shadow-sm text-sm">
+                        {{ current_user.username[0]|upper }}
+                    </div>
+                    {% endif %}
+
+                    <span class="font-semibold text-gray-800 text-sm">{{ current_user.username }}</span>
+                </a>
+            </div>
+
+            <div class="flex flex-col text-lg">
+                <a href="{{ url_for('registro_minerales.registrar_minerales') }}"
+                    class="text-center hover:bg-gray-200/50 border-b-2 border-gray-600 py-3">Registrar Mineral</a>
+                <a href="{{ url_for('registro_minerales.ver_stock') }}"
+                    class="text-center hover:bg-gray-200/50 py-3">Ver Stock</a>
+            </div>
+        </div>
+
+        <section class="flex-1 flex items-center justify-center p-6 lg:ml-60 transition-all duration-300">
+            <div class="w-full max-w-lg bg-white shadow-md rounded-lg p-6 border border-gray-300">
+                <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Editar Mineral: {{ mineral.name }}</h1>
+
+                {% if error %}
+                <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4">
+                    {{ error }}
+                </div>
+                {% endif %}
+
+                <form method="POST" action="{{ url_for('registro_minerales.editar_mineral', nombre=mineral.name) }}"
+                    class="flex flex-col gap-4 text-left">
+
+                    <label for="name" class="font-semibold text-gray-700">Nombre del Mineral:</label>
+                    <input type="text" name="name" id="name" value="{{ mineral.name }}" required
+                        class="border-gray-600 bg-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-black placeholder-gray-400">
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <div class="w-full">
+                            <label for="price" class="font-semibold text-gray-700">Precio:</label>
+                            <input type="number" step="0.01" name="price" id="price" value="{{ mineral.price }}"
+                                required
+                                class="border-gray-600 bg-white rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-black placeholder-gray-400">
+                        </div>
+
+                        <div class="w-full">
+                            <label for="stock" class="font-semibold text-gray-700">Stock (Kg):</label>
+                            <input type="number" name="stock" id="stock" value="{{ mineral.stock }}" required
+                                class="border-gray-600 bg-white rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-black placeholder-gray-400">
+                        </div>
+                    </div>
+
+                    <label for="description" class="font-semibold text-gray-700">Descripción:</label>
+                    <textarea name="description" id="description" rows="2"
+                        class="border-gray-600 bg-white rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-black placeholder-gray-400">{{ mineral.description }}</textarea>
+
+                    <div class="flex gap-4 mt-5 justify-center">
+                        <a href="{{ url_for('registro_minerales.ver_stock') }}"
+                            class="border rounded-2xl px-6 py-2 bg-gray-300 hover:bg-gray-400 transition font-bold text-gray-800">
+                            Cancelar
+                        </a>
+                        <button type="submit"
+                            class="border rounded-2xl px-6 py-2 bg-[#F8F2CE] hover:bg-[#a9a598] transition font-bold text-gray-800">
+                            Guardar Cambios
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const botonAside = document.getElementById('boton_aside');
+        const cerrarAside = document.getElementById('cerrar_aside');
+        const menuAside = document.getElementById('menu_aside');
+        const overlay = document.getElementById('overlay');
+
+        botonAside.addEventListener('click', () => {
+            menuAside.classList.remove('-translate-x-full');
+            overlay.classList.remove('hidden');
+        });
+
+        cerrarAside.addEventListener('click', () => {
+            menuAside.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        });
+
+        overlay.addEventListener('click', () => {
+            menuAside.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        });
+    </script>
 </body>
 
 </html>
