@@ -1,26 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-100 min-h-screen flex">
 
     <aside class="w-64 bg-[#22223B] text-[#F2E9E4] flex flex-col py-8 px-4 min-h-screen">
         <h2 class="text-2xl font-bold mb-10 text-center">Admin Dashboard</h2>
         <nav class="flex flex-col gap-4">
             <a href="{{ url_for('admin_panel.admin_panel', page='minerales') }}"
-               class="py-2 px-4 rounded hover:bg-[#4A4E69] {% if page == 'minerales' %}bg-[#4A4E69]{% endif %}">
+                class="py-2 px-4 rounded hover:bg-[#4A4E69] {% if page == 'minerales' %}bg-[#4A4E69]{% endif %}">
                 Gestionar Minerales
             </a>
             <a href="{{ url_for('admin_panel.admin_panel', page='usuarios') }}"
-               class="py-2 px-4 rounded hover:bg-[#4A4E69] {% if page == 'usuarios' %}bg-[#4A4E69]{% endif %}">
+                class="py-2 px-4 rounded hover:bg-[#4A4E69] {% if page == 'usuarios' %}bg-[#4A4E69]{% endif %}">
                 Gestionar Usuarios
             </a>
             <a href="{{ url_for('admin_panel.admin_panel', page='pedidos') }}"
-               class="py-2 px-4 rounded hover:bg-[#4A4E69] {% if page == 'pedidos' %}bg-[#4A4E69]{% endif %}">
+                class="py-2 px-4 rounded hover:bg-[#4A4E69] {% if page == 'pedidos' %}bg-[#4A4E69]{% endif %}">
                 Gestionar Pedidos
             </a>
         </nav>
@@ -28,109 +30,100 @@
 
     <main class="flex-1 p-10">
         {% if page == 'minerales' %}
-            <h1 class="text-3xl font-bold mb-6">Gestionar Minerales</h1>
+        <h1 class="text-3xl font-bold mb-6">Gestionar Minerales</h1>
 
-                <div class="flex flex-wrap items-center justify-between mb-4 gap-2">
-                    <form method="get" action="{{ url_for('admin_panel.admin_panel') }}" class="flex gap-2">
-                        <input type="hidden" name="page" value="{{ page }}">
-                        <input
-                            type="text"
-                            name="buscar"
-                            placeholder="Buscar..."
-                            value="{{ request.args.get('buscar', '') }}"
-                            class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#4A4E69]"
-                        >
-                        <button type="submit" class="bg-[#4A4E69] text-white px-4 py-2 rounded hover:bg-[#22223B] transition">
-                            Buscar
-                        </button>
-                    </form>
-                    <a href="{{ url_for('admin_panel.exportar_csv', page=page) }}"
-                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
-                        Exportar CSV
-                    </a>
-                </div>
+        <div class="flex flex-wrap items-center justify-between mb-4 gap-2">
+            <form method="get" action="{{ url_for('admin_panel.admin_panel') }}" class="flex gap-2">
+                <input type="hidden" name="page" value="{{ page }}">
+                <input type="text" name="buscar" placeholder="Buscar..." value="{{ request.args.get('buscar', '') }}"
+                    class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#4A4E69]">
+                <button type="submit" class="bg-[#4A4E69] text-white px-4 py-2 rounded hover:bg-[#22223B] transition">
+                    Buscar
+                </button>
+            </form>
+            <a href="{{ url_for('admin_panel.exportar_csv', page=page) }}"
+                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                Exportar CSV
+            </a>
+        </div>
 
-                <div class="bg-white rounded shadow p-6 overflow-x-auto">
-                    {% if table_data %}
-                    <table class="min-w-full text-left border border-gray-200">
-                        <thead>
-                            <tr>
-                                <th class="px-4 py-2 border-b">Nombre</th>
-                                <th class="px-4 py-2 border-b">Precio</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for nombre, precio in table_data %}
-                            <tr class="hover:bg-gray-100">
-                                <td class="px-4 py-2 border-b">{{ nombre }}</td>
-                                <td class="px-4 py-2 border-b">{{ precio }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                    {% else %}
-                    <p>No hay minerales para mostrar.</p>
-                    {% endif %}
-                </div>
+        <div class="bg-white rounded shadow p-6 overflow-x-auto">
+            {% if table_data %}
+            <table class="min-w-full text-left border border-gray-200">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2 border-b">Nombre</th>
+                        <th class="px-4 py-2 border-b">Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for nombre, precio in table_data %}
+                    <tr class="hover:bg-gray-100">
+                        <td class="px-4 py-2 border-b">{{ nombre }}</td>
+                        <td class="px-4 py-2 border-b">{{ precio }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No hay minerales para mostrar.</p>
+            {% endif %}
+        </div>
         {% elif page == 'usuarios' %}
-            <h1 class="text-3xl font-bold mb-6">Gestionar Usuarios</h1>
+        <h1 class="text-3xl font-bold mb-6">Gestionar Usuarios</h1>
 
-                <div class="flex flex-wrap items-center justify-between mb-4 gap-2">
-                    <form method="get" action="{{ url_for('admin_panel.admin_panel') }}" class="flex gap-2">
-                        <input type="hidden" name="page" value="{{ page }}">
-                        <input
-                            type="text"
-                            name="buscar"
-                            placeholder="Buscar..."
-                            value="{{ request.args.get('buscar', '') }}"
-                            class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#4A4E69]"
-                        >
-                        <button type="submit" class="bg-[#4A4E69] text-white px-4 py-2 rounded hover:bg-[#22223B] transition">
-                            Buscar
-                        </button>
-                    </form>
-                    <a href="{{ url_for('admin_panel.exportar_csv', page=page) }}"
-                    class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
-                        Exportar CSV
-                    </a>
-                </div>
-            <div class="bg-white rounded shadow p-6 overflow-x-auto">
-                {% if table_data %}
-                <table class="min-w-full text-left border border-gray-200">
-                    <thead>
-                        <tr>
-                            <th class="px-4 py-2 border-b">ID</th>
-                            <th class="px-4 py-2 border-b">Usuario</th>
-                            <th class="px-4 py-2 border-b">Email</th>
-                            <th class="px-4 py-2 border-b">Rol</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for user in table_data %}
-                        <tr class="hover:bg-gray-100">
-                            <td class="px-4 py-2 border-b">{{ user.id }}</td>
-                            <td class="px-4 py-2 border-b">{{ user.username }}</td>
-                            <td class="px-4 py-2 border-b">{{ user.mail }}</td>
-                            <td class="px-4 py-2 border-b">{{ user.role }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                {% else %}
-                <p>No hay usuarios para mostrar.</p>
-                {% endif %}
-            </div>
+        <div class="flex flex-wrap items-center justify-between mb-4 gap-2">
+            <form method="get" action="{{ url_for('admin_panel.admin_panel') }}" class="flex gap-2">
+                <input type="hidden" name="page" value="{{ page }}">
+                <input type="text" name="buscar" placeholder="Buscar..." value="{{ request.args.get('buscar', '') }}"
+                    class="border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#4A4E69]">
+                <button type="submit" class="bg-[#4A4E69] text-white px-4 py-2 rounded hover:bg-[#22223B] transition">
+                    Buscar
+                </button>
+            </form>
+            <a href="{{ url_for('admin_panel.exportar_csv', page=page) }}"
+                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 transition">
+                Exportar CSV
+            </a>
+        </div>
+        <div class="bg-white rounded shadow p-6 overflow-x-auto">
+            {% if table_data %}
+            <table class="min-w-full text-left border border-gray-200">
+                <thead>
+                    <tr>
+                        <th class="px-4 py-2 border-b">ID</th>
+                        <th class="px-4 py-2 border-b">Usuario</th>
+                        <th class="px-4 py-2 border-b">Email</th>
+                        <th class="px-4 py-2 border-b">Rol</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in table_data %}
+                    <tr class="hover:bg-gray-100">
+                        <td class="px-4 py-2 border-b">{{ user.id }}</td>
+                        <td class="px-4 py-2 border-b">{{ user.username }}</td>
+                        <td class="px-4 py-2 border-b">{{ user.mail }}</td>
+                        <td class="px-4 py-2 border-b">{{ user.role }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p>No hay usuarios para mostrar.</p>
+            {% endif %}
+        </div>
         {% elif page == 'pedidos' %}
-            <h1 class="text-3xl font-bold mb-6">Gestionar Pedidos</h1>
-            <div class="bg-white rounded shadow p-6">
-                <p>Aquí iría la tabla de pedidos (implementación futura).</p>
-            </div>
+        <h1 class="text-3xl font-bold mb-6">Gestionar Pedidos</h1>
+        <div class="bg-white rounded shadow p-6">
+            <p>Aquí iría la tabla de pedidos (implementación futura).</p>
+        </div>
         {% else %}
-            <h1 class="text-3xl font-bold mb-6">Bienvenido al Panel de Administración</h1>
-            <div class="bg-white rounded shadow p-6">
-                <p>Selecciona una opción del menú.</p>
-            </div>
+        <h1 class="text-3xl font-bold mb-6">Bienvenido al Panel de Administración</h1>
+        <div class="bg-white rounded shadow p-6">
+            <p>Selecciona una opción del menú.</p>
+        </div>
         {% endif %}
     </main>
 </body>
+
 </html>
